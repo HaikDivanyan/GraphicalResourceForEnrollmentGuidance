@@ -1,9 +1,14 @@
 import React from 'react';
+import Landing from './components/landing';
+import NavBar from './components/navbar';
+import './App.css';
 
 function App() {
   return(
     <div>
-      Hello
+      <NavBar/>
+      <Landing/>
+      <div className='BlueSection'></div>
     </div>
   )
 }
