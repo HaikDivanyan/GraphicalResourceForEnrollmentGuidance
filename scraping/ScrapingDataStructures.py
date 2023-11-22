@@ -18,17 +18,17 @@ class Time:
 class Professor:
     def __init__(self, name: str = None, rating: float = None):
         self.name = name
-        self.rating = float
+        self.rating = rating
 
 class DiscussionSection:
     def __init__(self, id: str = None, time: Time = None):
         self.id = id
-        self.time = Time
+        self.times = time
 
 class Lecture:
-    def __init__(self, id: str = None, time: Time = None, discussions: list[DiscussionSection] = None, professor: Professor = None):
+    def __init__(self, id: str = None, times: list[Time] = None, discussions: list[DiscussionSection] = None, professor: Professor = None):
         self.id = id
-        self.time = time
+        self.times = times
         self.discussions = discussions
         self.professor = professor
 
