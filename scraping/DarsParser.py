@@ -1,23 +1,35 @@
 from bs4 import BeautifulSoup
 import re
 from ScrapingDataStructures import *
+import pickle
 
 class DarsParser:
     def __init__(self):
         with open("majors.txt") as f:
             self.majors = set(f.read().split(","))
     
-    def parseDar(self, dar: str) -> tuple[list[tuple[str, str]], list[Requirement]]:
+    def parseDar(self, dar: str) -> tuple[list[str], list[Requirement]]:
         dar = BeautifulSoup(dar, features='html.parser')
         requirements = []
+        takenClasses = []
+
+        for takenHTML in dar.findAll("table", "completedCourses"):
+            for completedHTML in takenHTML.findAll("td", "course"):
+                takenClasses.append(completedHTML.text)
+
+        takenClasses = set(takenClasses)
+
         for reqHTML in dar.findAll("div", "Status_NO"):
             req = Requirement()
+            req.subrequirements = []
             req.name = re.sub('[ \n]+', " ", str(reqHTML.find("div", "reqTitle").get_text()).strip())
             for subreqHTML in reqHTML.findAll("div", "subrequirement"):
                 statHTML = subreqHTML.find("span", "Status_NO")
                 if (statHTML is not None):
                     subreq = SubRequirement()
+                    subreq.classes = []
                     subreq.name = re.sub('[ \n]+', " ", str(subreqHTML.find("span", "subreqTitle").get_text()).strip())
+
                     needsHTML = subreqHTML.find("table", "subreqNeeds")
                     if (needsHTML is not None):
                         if (needsHTML.find("td", "hours") is not None):
@@ -42,9 +54,35 @@ class DarsParser:
                             req.subrequirements.append(subreq)
             requirements.append(req)
 
+        with open("registrar.pkl", "rb") as f:
+            regData = pickle.load(f)
 
-        classes = []
+        allClasses = []
         for req in requirements:
             for subreq in req.subrequirements:
-                classes.extend(subreq.classes)
-        return (list(set(classes)), requirements)
+                trueClasses = []
+                for classes in subreq.classes:
+                    if "TO" in classes[1]:
+                        ps = classes[1].split(" TO ")
+                        temp = re.findall("([A-Za-z]+)\d+", ps[0])
+                        if len(temp) > 0:
+                            prefix = temp[0]
+                        else:
+                            prefix = ""
+                        frm = int(re.findall("(\d+)", ps[0])[0])
+                        to = int(re.findall("(\d+)", ps[1])[0])
+                        for i in range(frm, to + 1):
+                            for post in ["", "A", "B", "C", "D", "E", "F", "G", "EW"]:
+                                cid = classes[0] + " " + prefix + str(i) + post
+                                if cid in regData and cid not in takenClasses:
+                                    trueClasses.append(cid)
+                    else:
+                        if classes[0] + " " + classes[1] in regData and cid not in takenClasses:
+                            trueClasses.append((classes[0] + " " + classes[1]))
+
+                subreq.classes = trueClasses
+                allClasses.extend(trueClasses)
+
+
+                # classes.extend(subreq.classes)
+        return (list(set(allClasses)), requirements)

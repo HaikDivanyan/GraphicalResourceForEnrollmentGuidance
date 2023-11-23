@@ -6,7 +6,7 @@ import urllib.request
 
 class BruinwalkController:
     def __init__(self):
-        with open("bruinwalk.pkl", "r") as f:
+        with open("bruinwalk.pkl", "rb") as f:
             self.classData = pickle.load(f)
 
     def getClassRating(self, registrarClass: ClassObject) -> float:
@@ -26,15 +26,17 @@ class BruinwalkController:
 
         return rating
     
-    def getProfessorRating(self, professor: Professor):
+    def getProfessorRating(self, professor: Professor) -> float:
         if professor.name in self.classData:
-            return self.classData[professor.name]
+            if self.classData[professor.name] is not None:
+                return self.classData[professor.name]
         
         try:
-            html = str(urllib.request.urlopen("https://bruinwalk.com/search/?q=" + professor.name.split[", "][0].replace(" ", "+")).read())
+            last = professor.name.split(", ")[0].replace(" ", "+")
+            html = str(urllib.request.urlopen("https://bruinwalk.com/search/?q=" + last).read())
             i = html.find("<b class=\"rating\"> ") + 19
             rating = float(html[i:i+3])
-        except:
+        except Exception as e:
             rating = None
 
         self.classData[professor.name] = rating
