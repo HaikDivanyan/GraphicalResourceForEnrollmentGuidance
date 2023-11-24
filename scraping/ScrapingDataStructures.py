@@ -33,12 +33,12 @@ class Lecture:
         self.professors = professors
 
 class ClassObject:
-    def __init__(self, id: str = None, units: int = None, subjectArea: str = None, rating: float = None, gradeDistribution: list[int] = None, hotseatGraph: str = None, lectures: list[Lecture] = None, name: str = None):
+    def __init__(self, id: str = None, units: int = None, subjectArea: str = None, rating: float = None, gradeDistributions: dict[list[int]] = None, hotseatGraph: str = None, lectures: list[Lecture] = None, name: str = None):
         self.id = id
         self.units = units
         self.subjectArea = subjectArea
         self.rating = rating
-        self.gradeDistribution = gradeDistribution
+        self.gradeDistributions = gradeDistributions
         self.hosteatGraph = hotseatGraph
         self.lectures = lectures
         self.name = name

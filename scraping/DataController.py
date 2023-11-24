@@ -2,12 +2,15 @@ from ScrapingDataStructures import *
 from BruinwalkController import BruinwalkController
 from DarsParser import DarsParser
 from RegistrarController import RegistrarController
+import pickle
 
 class DataController:
     def __init__(self):
         self.darsParser = DarsParser()
         self.BwController = BruinwalkController()
         self.regController = RegistrarController()
+        with open("distro.pkl", "rb") as f:
+            self.distributions = pickle.load(f)
 
     def parseDar(self, dar: str) -> Dars:
         tempClasses, requirements = self.darsParser.parseDar(dar)
@@ -40,9 +43,17 @@ class DataController:
 
         currClass.rating = self.BwController.getClassRating(currClass)
 
+        currClass.gradeDistributions = self._getGradeDistributions(currClass)
+
         return currClass
     
     def _getProfessorInfo(self, profName: str) -> Professor:
         p = Professor(profName)
         p.rating = self.BwController.getProfessorRating(p)
         return p
+    
+    def _getGradeDistributions(self, currClass: ClassObject) -> dict[list[int]]:
+        if currClass.id not in self.distributions:
+            return None
+        else:
+            return self.distributions[currClass.id]
