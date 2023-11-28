@@ -4,6 +4,7 @@ import NavBar from './components/navbar';
 import Instruction from './components/instruction';
 import Upload from './components/upload';
 import Remaining from './components/remaining';
+import Footer from './components/footer';
 import './App.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Upload/>
       <div className='BlueSection'></div>
       <Remaining/>
+      <Footer/>
     </div>
   )
 }

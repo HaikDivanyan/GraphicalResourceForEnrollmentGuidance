@@ -1,0 +1,15 @@
+.Footer {
+    background-color: #8BB8E8;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.FooterTitle {
+    color: black;
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 12px;
+}
