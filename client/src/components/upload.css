@@ -1,0 +1,31 @@
+.UploadSection {
+    padding: 20px;
+}
+
+.Upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.SectionTitle {
+    font-size: 25px;
+    font-weight: bold;
+    padding: 30px;
+    margin-left: 100px;
+}
+
+.dropzone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: solid 3px #8BB8E8;
+    border-radius: 20px;
+    height: 100px;
+}
+
+.container {
+    width: 70%;
+}
