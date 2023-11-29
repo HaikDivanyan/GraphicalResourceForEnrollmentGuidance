@@ -23,7 +23,8 @@ class DataController:
                 continue 
             for lec in data.lectures:
                 for prof in lec.professors:
-                    professors.append(self._getProfessorInfo(prof))
+                    if prof not in professors:
+                        professors.append(self._getProfessorInfo(prof))
             classes.append(data)
         
         return Dars(requirements, classes, professors)

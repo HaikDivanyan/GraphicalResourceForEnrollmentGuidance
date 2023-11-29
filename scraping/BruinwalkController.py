@@ -28,8 +28,7 @@ class BruinwalkController:
     
     def getProfessorRating(self, professor: Professor) -> float:
         if professor.name in self.classData:
-            if self.classData[professor.name] is not None:
-                return self.classData[professor.name]
+            return self.classData[professor.name]
         
         try:
             last = professor.name.split(", ")[0].replace(" ", "+")
