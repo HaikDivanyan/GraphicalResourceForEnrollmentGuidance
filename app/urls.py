@@ -14,8 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from apps.GREG.views import greg_endpoint
-from django.urls import path
+from django.urls import path, include
+from apps.GREG import urls as api_urls
 
 urlpatterns = [
     path('hello', greg_endpoint),
+    path('api-auth/', include('rest_framework.urls')),
+    path('schedules/', include(api_urls)),
 ]
