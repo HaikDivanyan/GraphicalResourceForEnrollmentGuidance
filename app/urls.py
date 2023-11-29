@@ -20,5 +20,5 @@ from apps.GREG import urls as api_urls
 urlpatterns = [
     path('hello', greg_endpoint),
     path('api-auth/', include('rest_framework.urls')),
-    path('schedules/', include(api_urls)),
+    path('', include(api_urls)),
 ]
