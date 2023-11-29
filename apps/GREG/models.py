@@ -10,9 +10,9 @@ class ClassObj (models.Model):
     uints = models.IntegerField()
     subjectArea = models.CharField(max_length= 50)
     rating = models.FloatField()
-    gradeDistribution = models.CharField(validators=[int_list_validator], max_length=100) # list of Int ? 
+    gradeDistribution = models.CharField(validators=[int_list_validator], max_length=12) 
     hotSeat = models.CharField(max_length=100)
-    classId = models.CharField(max_length=50) # double check the max length
+    classId = models.CharField(max_length=25) # double check the max length
 
 class Schedule (models.Model):
     rating = models.FloatField() #could use ManytoManyField which creates schedule-class table 
