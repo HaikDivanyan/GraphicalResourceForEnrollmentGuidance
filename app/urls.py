@@ -18,7 +18,7 @@ from django.urls import path, include
 from apps.GREG import urls as api_urls
 
 urlpatterns = [
-    path('hello', greg_endpoint),
-    path('api-auth/', include('rest_framework.urls')),
+    path('', greg_endpoint),
+    path('', include('rest_framework.urls')),
     path('', include(api_urls)),
 ]
