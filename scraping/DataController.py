@@ -1,8 +1,10 @@
-from ScrapingDataStructures import *
+import pickle
+
 from BruinwalkController import BruinwalkController
 from DarsParser import DarsParser
 from RegistrarController import RegistrarController
-import pickle
+from ScrapingDataStructures import *
+
 
 class DataController:
     def __init__(self):
@@ -37,7 +39,7 @@ class DataController:
             return None
         
         currClass.lectures = regData.lectures
-        currClass.units = regData.units
+        currClass.units = int(float(regData.units))
         currClass.name = regData.className
         currClass.subjectArea = regData.subjectArea
 
