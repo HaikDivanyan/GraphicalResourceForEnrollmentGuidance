@@ -31,7 +31,7 @@ class Time (models.Model):
         self.hours = hours
 
 class Professor (models.Model):
-    rating = models.FloatField()
+    rating = models.FloatField(null=True)
     name = models.CharField(max_length=90)
 
     def __str__(self):

@@ -33,7 +33,9 @@ def v(request):
   for professor in dars.professors:
      p = Professor(name= professor.name, rating = professor.rating)
      p.save()
-     print(p)
+  # for cls in dars.classes:
+  #    cls = ClassObj()
+
   return HttpResponse('GREG')
 class ClassListView (APIView):
     
