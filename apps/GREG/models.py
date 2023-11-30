@@ -7,13 +7,14 @@ from django.core.validators import int_list_validator
 
 
 class ClassObj (models.Model):
-    uints = models.IntegerField()
-    subjectArea = models.CharField(max_length= 50)
+    units = models.CharField(max_length=4)
+    subjectArea = models.CharField(max_length= 15)
     rating = models.FloatField()
-    gradeDistribution = models.CharField(validators=[int_list_validator], max_length=12) 
-    hotSeat = models.CharField(max_length=100)
+    gradeDistributions = models.CharField(validators=[int_list_validator], max_length=12) 
+    hotseatGraph = models.CharField(max_length=100)
     classId = models.CharField(max_length=25) # double check the max length
-
+    name = models.CharField(max_length= 150)
+    #lectures = 
 class Schedule (models.Model):
     rating = models.FloatField() #could use ManytoManyField which creates schedule-class table 
     # classes = ArrayField(model_container=ClassObj)
@@ -29,6 +30,14 @@ class Time (models.Model):
         self.days = days
         self.hours = hours
 
+class Professor (models.Model):
+    rating = models.FloatField()
+    name = models.CharField(max_length=90)
+
+    def __str__(self):
+        return self.name
+
+
 # class UserFilters (models.Model):
 #     # priorityClasses = ArrayField(model_container=ClassObj)
 #     # ignoreClasses = ArrayField(model_container=ClassObj)
@@ -41,4 +50,3 @@ class Time (models.Model):
 #     minClassRating = models.FloatField()
 #     maxUnites = models.IntegerField(default=12)
 #     numClasses = models.IntegerField(default=3)
-
