@@ -4,7 +4,7 @@ import './instruction.css';
 export default function Instruction() {
 
     return (
-      <div className="Instruction">
+      <div className="Instruction" id="how-to-use">
             <h1>How does greg work?</h1>
             <div className="Description">
                 GREG simplifies class scheduling by analyzing UCLA student's DARS HTML file and 

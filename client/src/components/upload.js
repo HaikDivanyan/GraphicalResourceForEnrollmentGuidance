@@ -16,7 +16,7 @@ export default function Upload() {
     ));
 
     return (
-    <div className="UploadSection">
+    <div className="UploadSection" id="upload">
       <div className="SectionTitle">
           Upload DARS
       </div>
