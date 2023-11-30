@@ -1,8 +1,10 @@
-from ScrapingDataStructures import *
+import pickle
+
 from BruinwalkController import BruinwalkController
 from DarsParser import DarsParser
 from RegistrarController import RegistrarController
-import pickle
+from ScrapingDataStructures import *
+
 
 class DataController:
     def __init__(self):
@@ -23,7 +25,8 @@ class DataController:
                 continue 
             for lec in data.lectures:
                 for prof in lec.professors:
-                    professors.append(self._getProfessorInfo(prof))
+                    if prof not in professors:
+                        professors.append(self._getProfessorInfo(prof))
             classes.append(data)
         
         return Dars(requirements, classes, professors)
@@ -37,7 +40,7 @@ class DataController:
             return None
         
         currClass.lectures = regData.lectures
-        currClass.units = regData.units
+        currClass.units = int(float(regData.units))
         currClass.name = regData.className
         currClass.subjectArea = regData.subjectArea
 

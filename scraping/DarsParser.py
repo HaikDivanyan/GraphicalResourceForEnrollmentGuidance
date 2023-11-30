@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import re
 from ScrapingDataStructures import *
 import pickle
+import time
 
 class DarsParser:
     def __init__(self):
@@ -18,7 +19,6 @@ class DarsParser:
                 takenClasses.append(completedHTML.text)
 
         takenClasses = set(takenClasses)
-
         for reqHTML in dar.findAll("div", "Status_NO"):
             req = Requirement()
             req.subrequirements = []
@@ -28,6 +28,8 @@ class DarsParser:
                 if (statHTML is not None):
                     subreq = SubRequirement()
                     subreq.classes = []
+                    if subreqHTML.find("span", "subreqTitle") == None:
+                        continue
                     subreq.name = re.sub('[ \n]+', " ", str(subreqHTML.find("span", "subreqTitle").get_text()).strip())
 
                     needsHTML = subreqHTML.find("table", "subreqNeeds")
@@ -54,11 +56,16 @@ class DarsParser:
                             req.subrequirements.append(subreq)
             requirements.append(req)
 
+       
+
         with open("registrar.pkl", "rb") as f:
             regData = pickle.load(f)
 
         allClasses = []
+        toRemove = []
         for req in requirements:
+            if len(req.subrequirements) == 0:
+                toRemove.append(req)
             for subreq in req.subrequirements:
                 trueClasses = []
                 for classes in subreq.classes:
@@ -72,17 +79,18 @@ class DarsParser:
                         frm = int(re.findall("(\d+)", ps[0])[0])
                         to = int(re.findall("(\d+)", ps[1])[0])
                         for i in range(frm, to + 1):
-                            for post in ["", "A", "B", "C", "D", "E", "F", "G", "EW"]:
+                            for post in ["", "A", "B", "C", "D", "E", "F", "G", "EW", "XP"]:
                                 cid = classes[0] + " " + prefix + str(i) + post
                                 if cid in regData and cid not in takenClasses:
                                     trueClasses.append(cid)
                     else:
-                        if classes[0] + " " + classes[1] in regData and cid not in takenClasses:
+                        if classes[0] + " " + classes[1] in regData and classes[0] + " " + classes[1] not in takenClasses:
                             trueClasses.append((classes[0] + " " + classes[1]))
 
                 subreq.classes = trueClasses
                 allClasses.extend(trueClasses)
 
+        for req in toRemove:
+            requirements.remove(req)
 
-                # classes.extend(subreq.classes)
         return (list(set(allClasses)), requirements)
