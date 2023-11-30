@@ -23,8 +23,26 @@ export default function Landing() {
                     "For a schedule that's prime, go with GREG every time."
                 </div>
                 <div className="Buttons">
-                        <button className="button1">How to Use</button>
-                        <button className="button2">Get Started</button>
+                        <button className="button1" onClick={()=> {
+                            const target = document.getElementById("how-to-use");
+                            if (target) {
+                                target.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center',
+                                    inline: 'center'
+                                })
+                            }
+                        }}>How to Use</button>
+                        <button className="button2" onClick={()=> {
+                            const target = document.getElementById("upload");
+                            if (target) {
+                                target.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center',
+                                    inline: 'center'
+                                })
+                            }
+                        }}>Get Started</button>
                 </div>
             </div> 
       </div>
