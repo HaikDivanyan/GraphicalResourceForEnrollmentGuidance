@@ -6,10 +6,13 @@ from django import forms
 class UploadFileForm(forms.Form):
     title = forms.CharField(max_length=50)
     file = forms.FileField()
-# models are not final and need to change depend on the clinet and scraping requirments
-# creating a schedule model 
 
+class Dars(models.Model):
+    def __str__(self):
+        return 'dars'
+    
 class ClassObj (models.Model):
+    dars = models.ForeignKey(Dars,related_name= 'classes', on_delete=models.CASCADE )
     units = models.CharField(max_length=4, default='4.0')
     subjectArea = models.CharField(max_length= 15)
     rating = models.FloatField(null=True)
@@ -21,6 +24,7 @@ class ClassObj (models.Model):
         return self.name
 
 class Requirement(models.Model):
+    dars = models.ForeignKey(Dars,related_name= 'requirements', on_delete=models.CASCADE )
     name = models.CharField(max_length=100)
     def __str__(self) -> str:
         return self.name
@@ -42,6 +46,7 @@ class Schedule (models.Model):
         return self.rating
 
 class Professor (models.Model):
+    dars = models.ForeignKey(Dars,related_name= 'professors', on_delete=models.CASCADE )
     rating = models.FloatField(null=True)
     name = models.CharField(max_length=90)
 
