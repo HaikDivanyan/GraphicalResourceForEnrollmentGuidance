@@ -22,21 +22,7 @@ def upload_file(request):
         if form.is_valid():
           darspars(request.FILES["file"])
         
-#   def get(self, request, *args, **kwargs):
-#         '''
-#         List all the todo items for given requested user
-#         '''
-#         with open("scraping test scripts/dar.html") as f:
-#           dars = dataControler.parseDar(f.read())
-#         for professor in dars.professors:
-#           p = Professor(name= professor.name, rating = professor.rating)
-#           p.save()
-#         professors = Professor.objects.all()
-#         serializer = ProfessorSerializer(professors, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
 
-  
-#   #return Response(serializer.data)
 @api_view(['GET', 'POST'])
 def darspars(f):
   with open("scraping test scripts/dar.html") as fil:
