@@ -16,8 +16,10 @@ Including another URLconf
 
 from django.urls import path, include
 from apps.GREG import urls as api_urls
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', include('rest_framework.urls')),
     path('', include(api_urls)),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

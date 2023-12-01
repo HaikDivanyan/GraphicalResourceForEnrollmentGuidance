@@ -1,9 +1,13 @@
 from django.db import models
 from django.core.validators import int_list_validator
+from django import forms
 
+
+class UploadFileForm(forms.Form):
+    title = forms.CharField(max_length=50)
+    file = forms.FileField()
 # models are not final and need to change depend on the clinet and scraping requirments
 # creating a schedule model 
-
 
 class ClassObj (models.Model):
     units = models.CharField(max_length=4, default='4.0')
@@ -14,6 +18,20 @@ class ClassObj (models.Model):
     classId = models.CharField(max_length=25) # double check the max length
     name = models.CharField(max_length= 150)
     def __str__(self):
+        return self.name
+
+class Requirement(models.Model):
+    name = models.CharField(max_length=100)
+    def __str__(self) -> str:
+        return self.name
+
+class SubRequirement(models.Model):
+    name = models.CharField(max_length= 150)
+    units = models.IntegerField()
+    count = models.IntegerField()
+    subrequirements = models.ForeignKey(Requirement, related_name='subrequirements', on_delete=models.CASCADE)
+    classes = models.CharField(max_length=200, blank=True, default='')
+    def __str__(self) -> str:
         return self.name
 
 class Schedule (models.Model):
@@ -29,7 +47,15 @@ class Professor (models.Model):
 
     def __str__(self):
         return self.name
+class RegistrarData(models.Model):
+    classId = models.CharField(max_length=20)
+    className = models.CharField(max_length=100)
+    units = models.CharField(max_length=4, default='4.0')
+    subjectArea = models.CharField(max_length= 15)
 
+    def __str__(self) -> str:
+        return self.classId
+    
 class Lecture (models.Model):
     classId = models.CharField(max_length=50)
     classObj = models.ForeignKey(ClassObj, null=True, related_name='lectures', blank=True, on_delete=models.CASCADE)
@@ -51,7 +77,8 @@ class Time (models.Model):
     discussionTime = models.ForeignKey(DiscussionSection, related_name='discussionTimes', null=True, on_delete=models.CASCADE)
     def __str__(self):
         return self.days 
-  
+
+
 # class UserFilters (models.Model):
 #     # priorityClasses = ArrayField(model_container=ClassObj)
 #     # ignoreClasses = ArrayField(model_container=ClassObj)
