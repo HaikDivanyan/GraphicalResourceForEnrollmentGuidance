@@ -3,17 +3,30 @@ import './upload.css';
 import {useDropzone} from 'react-dropzone'
 
 export default function Upload() {
-    const {acceptedFiles, getRootProps, getInputProps} = useDropzone({
-        accept: {
-            'text/html': ['.html']
-        }
-    });
+   
   
+    const onDrop = (file) => {
+      sendHTML()
+    }
+
+    const sendHTML = async(inputfile) => {
+      let formData = new FormData()
+      formData('dars', inputfile[0])
+
+    }
+
     const files = acceptedFiles.map(file => (
       <li key={file.path}>
         {file.path} - {file.size} bytes
       </li>
     ));
+
+    const {acceptedFiles, getRootProps, getInputProps} = useDropzone({
+      onDrop,
+      accept: {
+          'text/html': ['.html']
+      }
+  });
 
     return (
     <div className="UploadSection" id="upload">
