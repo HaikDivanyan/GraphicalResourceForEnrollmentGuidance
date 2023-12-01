@@ -1,34 +1,27 @@
 from django.db import models
 from django.core.validators import int_list_validator
-# from django.contrib.postgres.fields import ArrayField 
 
 # models are not final and need to change depend on the clinet and scraping requirments
 # creating a schedule model 
 
 
 class ClassObj (models.Model):
-    units = models.CharField(max_length=4)
+    units = models.CharField(max_length=4, default='4.0')
     subjectArea = models.CharField(max_length= 15)
-    rating = models.FloatField()
-    gradeDistributions = models.CharField(validators=[int_list_validator], max_length=12) 
-    hotseatGraph = models.CharField(max_length=100)
+    rating = models.FloatField(null=True)
+    gradeDistributions = models.CharField(validators=[int_list_validator], max_length=12, null = True) 
+    hotseatGraph = models.CharField(max_length=100, null=True, blank=True)
     classId = models.CharField(max_length=25) # double check the max length
     name = models.CharField(max_length= 150)
-    #lectures = 
+    def __str__(self):
+        return self.name
+
 class Schedule (models.Model):
     rating = models.FloatField() #could use ManytoManyField which creates schedule-class table 
     # classes = ArrayField(model_container=ClassObj)
 
     def __str__(self):
         return self.rating
-
-#how does this work? sample needed 
-class Time (models.Model):
-    days = models.CharField(max_length=20)
-    hours = models.CharField(max_length=20)
-    def __init__(self, days: str = None, hours: str = None):
-        self.days = days
-        self.hours = hours
 
 class Professor (models.Model):
     rating = models.FloatField(null=True)
@@ -37,7 +30,28 @@ class Professor (models.Model):
     def __str__(self):
         return self.name
 
+class Lecture (models.Model):
+    classId = models.CharField(max_length=50)
+    classObj = models.ForeignKey(ClassObj, null=True, related_name='lectures', blank=True, on_delete=models.CASCADE)
+    professors = models.CharField(max_length=200)
+    def __str__ (self):
+        return self.classId
 
+
+class DiscussionSection(models.Model):
+    discussionId = models.CharField(max_length=20, default='0')
+    lectures = models.ForeignKey(Lecture, related_name='discussions', null=True, on_delete=models.CASCADE)
+    def __str__(self) -> str:
+        return self.discussionId
+
+class Time (models.Model):
+    days = models.CharField(max_length=20)
+    hours = models.CharField(max_length=20)
+    lectureTime = models.ForeignKey(Lecture, related_name='times', null=True, on_delete=models.CASCADE, blank=True)
+    discussionTime = models.ForeignKey(DiscussionSection, related_name='discussionTimes', null=True, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.days 
+  
 # class UserFilters (models.Model):
 #     # priorityClasses = ArrayField(model_container=ClassObj)
 #     # ignoreClasses = ArrayField(model_container=ClassObj)
