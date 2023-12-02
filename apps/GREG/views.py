@@ -16,12 +16,6 @@ from .serlializer import *
 dataControler = DataController()
 @api_view(['GET', 'POST'])
 def haik(request):
-   main()
-   return Response('GREG')
-
-
-@api_view(['GET', 'POST'])
-def haik(request):
   main()
   return Response("meow")
 
@@ -29,12 +23,11 @@ def haik(request):
 def upload_file(request):
   if request.method == "POST":
     form = UploadFileForm(request.POST, request.FILES)
-    darspars(request.FILES["file"])
-    dars = Dars.objects.all()
-    serializer = DarsSerializer(dars, many=True)
+    dars = darspars(request.FILES["file"])
+    serializer = DarsSerializer(dars)
     return Response(serializer.data)
 
-def darspars(f):
+def darspars(f) -> Dars:
   dars = dataControler.parseDar(f.read())
   darsObj = Dars()
   darsObj.save()
@@ -64,6 +57,7 @@ def darspars(f):
     for sub in req.subrequirements:
        su = SubRequirement(name = sub.name, units = sub.units , count=sub.count, classes = sub.classes, subrequirements = r)
        su.save()
+  return darsObj
  
   # professors = Professor.objects.all()
   # profserializer = ProfessorSerializer(professors, many=True)
