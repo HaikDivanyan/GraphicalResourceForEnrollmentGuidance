@@ -55,8 +55,12 @@ class Time:
         return start_time <= class_start_time and class_end_time <= end_time
 
     def is_on_preferred_days(self, preferred_days):
+        # Convert both sets of days to expanded lists
+        class_days = list(self.days)
+        preferred_days_list = list(preferred_days)
+
         # Check if the class days intersect with the preferred days
-        return not any(day in self.days for day in preferred_days)
+        return any(day in preferred_days_list for day in class_days)
 
 class Professor:
     def __init__(self, name: str = None, rating: float = None):
