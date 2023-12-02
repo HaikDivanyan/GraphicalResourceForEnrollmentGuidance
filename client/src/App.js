@@ -5,6 +5,9 @@ import Instruction from './components/instruction';
 import Upload from './components/upload';
 import Remaining from './components/remaining';
 import Footer from './components/footer';
+import Schedule from './components/schedule';
+import Filter from './components/filter';
+import Demo from './components/demo';
 import './App.css';
 
 function App() {
@@ -18,6 +21,11 @@ function App() {
       <Upload/>
       <div className='BlueSection'></div>
       <Remaining/>
+      <div className='BlueSection'></div>
+      <Filter/>
+      <div className='BlueSection'></div>
+      <Schedule/>
+      <Demo/>
       <Footer/>
     </div>
   )
