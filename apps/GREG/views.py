@@ -17,16 +17,15 @@ dataControler = DataController()
 
 @api_view(['GET', 'POST'])
 def upload_file(request):
-        form = UploadFileForm(request.POST, request.FILES)
-        #if form.is_valid():
-          # darspars(request.FILES["file"])
-        dars = Dars.objects.all()
-        serializer = DarsSerializer(dars, many=True)
-        return Response(serializer.data)
+  if request.method == "POST":
+    form = UploadFileForm(request.POST, request.FILES)
+    darspars(request.FILES["file"])
+    dars = Dars.objects.all()
+    serializer = DarsSerializer(dars, many=True)
+    return Response(serializer.data)
 
 def darspars(f):
-  with open("scraping test scripts/dar.html") as fil:
-    dars = dataControler.parseDar(fil.read())
+  dars = dataControler.parseDar(f.read())
   darsObj = Dars()
   darsObj.save()
   for professor in dars.professors:
