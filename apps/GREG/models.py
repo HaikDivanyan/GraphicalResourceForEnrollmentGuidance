@@ -31,9 +31,9 @@ class Requirement(models.Model):
 
 class SubRequirement(models.Model):
     name = models.CharField(max_length= 150)
-    units = models.IntegerField()
-    count = models.IntegerField()
-    subrequirements = models.ForeignKey(Requirement, related_name='subrequirements', on_delete=models.CASCADE)
+    units = models.IntegerField( null=True)
+    count = models.IntegerField(null=True)
+    subrequirements = models.ForeignKey(Requirement, related_name='subrequirements', on_delete=models.CASCADE, null=True)
     classes = models.CharField(max_length=200, blank=True, default='')
     def __str__(self) -> str:
         return self.name
@@ -48,7 +48,7 @@ class Schedule (models.Model):
 class Professor (models.Model):
     dars = models.ForeignKey(Dars,related_name= 'professors', on_delete=models.CASCADE )
     rating = models.FloatField(null=True)
-    name = models.CharField(max_length=90)
+    name = models.CharField(max_length=90, null=True)
 
     def __str__(self):
         return self.name
