@@ -4,22 +4,31 @@ import {useDropzone} from 'react-dropzone'
 
 export default function Upload() {
    
-  
-    const onDrop = (file) => {
-      sendHTML()
+    const url = "http://127.0.0.1:8000/dars";
+
+    const onDrop = (files) => {
+      sendHTML(files)
     }
 
     const sendHTML = async(inputfile) => {
+      try {
       let formData = new FormData()
-      formData('dars', inputfile[0])
+      formData.append('file', inputfile[0])
+      console.log(inputfile[0])
+      const response = await fetch(`${url}`, { 
+        method: 'GET',
 
+      })
+      const data = await response.json()
+      console.log(data)
+    }
+    catch(e) {
+      console.log(e)
     }
 
-    const files = acceptedFiles.map(file => (
-      <li key={file.path}>
-        {file.path} - {file.size} bytes
-      </li>
-    ));
+      
+      //const {id} = data //HOW we use get the data
+    }
 
     const {acceptedFiles, getRootProps, getInputProps} = useDropzone({
       onDrop,
@@ -27,6 +36,12 @@ export default function Upload() {
           'text/html': ['.html']
       }
   });
+
+    const files = acceptedFiles.map(file => (
+      <li key={file.path}>
+        {file.path} - {file.size} bytes
+      </li>
+    ));
 
     return (
     <div className="UploadSection" id="upload">
