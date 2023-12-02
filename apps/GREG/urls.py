@@ -1,6 +1,7 @@
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from .views import ( upload_file)
+
+from .views import haik, upload_file
 
 router = DefaultRouter()
 #router.register('files', FilesViewSet, basename='files')
@@ -8,5 +9,6 @@ router = DefaultRouter()
 
 urlpatterns = [
     path('dars/', upload_file),
+    path('', haik)
    # path('schedules/', )
 ]

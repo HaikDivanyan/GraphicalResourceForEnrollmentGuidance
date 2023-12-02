@@ -1,19 +1,24 @@
-from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework import status
-from rest_framework.views import APIView
+from django.shortcuts import render
+from rest_framework import status, viewsets
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
-from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework import viewsets
+from rest_framework.views import APIView
 
-#from rest_framework import viewsets
-from .serlializer import *
 from .models import *
 # Create your views here.
 from .scraping.DataController import DataController
+from .scraping.ScheduleGenerator import main
+#from rest_framework import viewsets
+from .serlializer import *
+
 dataControler = DataController()
+
+@api_view(['GET', 'POST'])
+def haik(request):
+  main()
+  return Response("meow")
 
 @api_view(['GET', 'POST'])
 def upload_file(request):

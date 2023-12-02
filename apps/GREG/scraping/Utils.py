@@ -1,9 +1,26 @@
-import json
 from datetime import datetime
 
 
+class ScheduleObject:
+    def __init__(self, classes, rating: int):
+        self.classes = classes
+        self.rating = rating
+    
+    def __str__(self) -> str:
+        class_info = '\n'.join([cls.name for cls in self.classes])
+        return f"Schedule Rating: {self.rating}\nClasses:\n{class_info}"
+
 class UserFilters:
-    def __init__(self, preferred_days=None, latest_end_time=None, earliest_start_time=None, max_units=None, min_units=None, min_num_classes=None, max_num_classes=None):
+    def __init__(self, 
+                preferred_days="MTWRF", latest_end_time='11pm', earliest_start_time='6am',
+                max_units=12, min_units=2, min_num_classes=1, max_num_classes=4,
+                priority_classes=None, ignore_classes=None, priority_reqs=None, ignore_reqs=None,
+                subject=None):
+        self.priority_classes = priority_classes
+        self.ignore_classes = ignore_classes
+        self.priority_reqs = priority_reqs
+        self.ignore_reqs = ignore_reqs
+        self.subject = subject
         self.preferred_days = preferred_days
         self.latest_end_time = latest_end_time
         self.earliest_start_time = earliest_start_time
