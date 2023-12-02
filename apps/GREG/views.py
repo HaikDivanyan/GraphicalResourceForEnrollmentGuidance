@@ -12,8 +12,14 @@ from rest_framework import viewsets
 from .serlializer import *
 from .models import *
 # Create your views here.
+from .ScheduleGenerator import main
 from .scraping.DataController import DataController
 dataControler = DataController()
+@api_view(['GET', 'POST'])
+def haik(request):
+   main()
+   return Response('GREG')
+
 
 @api_view(['GET', 'POST'])
 def upload_file(request):

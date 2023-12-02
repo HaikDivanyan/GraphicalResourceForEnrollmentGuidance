@@ -6,10 +6,17 @@
 This repo serves as a template for a repository that follows the Scrum process. The following information describes how the native features/workflows of Github can be customized to work in a scrum development process.
 ## Django Cmmand reference
 ```
+    pip3 install virtualenv
     python -m venv env
     source .venv/bin/activate
     python -m pip install django
     python manage.py runserver - starting the development server
+    pip install djangorestframework
+    pip install django_cors_headers
+    pip install BeautifulSoup4
+    pip install selenium
+    pip install numpy
+    pip install webdriver_manager 
 ```
 
 ## Issues
