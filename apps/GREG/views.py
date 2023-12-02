@@ -7,13 +7,18 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import *
-# Create your views here.
 from .scraping.DataController import DataController
+# Create your views here.
 from .scraping.ScheduleGenerator import main
 #from rest_framework import viewsets
 from .serlializer import *
 
 dataControler = DataController()
+@api_view(['GET', 'POST'])
+def haik(request):
+   main()
+   return Response('GREG')
+
 
 @api_view(['GET', 'POST'])
 def haik(request):
