@@ -5,6 +5,7 @@ import Instruction from './components/instruction';
 import Upload from './components/upload';
 import Remaining from './components/remaining';
 import Footer from './components/footer';
+import Filter from './components/filter';
 import './App.css';
 
 function App() {
@@ -18,6 +19,9 @@ function App() {
       <Upload/>
       <div className='BlueSection'></div>
       <Remaining/>
+      <div className='BlueSection'></div>
+      <Filter/>
+      <div className='BlueSection'></div>
       <Footer/>
     </div>
   )
