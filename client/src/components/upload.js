@@ -22,6 +22,11 @@ export default function Upload() {
       })
       const data = await response.json()
       console.log(data)
+      const updated = data.pop()
+      console.log(updated.classes)
+      const remainingClasses = updated.classes
+      const remainingProfessors = updated.professors
+      const remainingRequirements = updated.requirements
     }
     catch(e) {
       console.log(e)
