@@ -2,11 +2,12 @@ import React from "react";
 import './upload.css';
 import {useDropzone} from 'react-dropzone'
 
-export default function Upload( {setRemainingClasses, setRemainingProfessors, setRemainingRequirements}) {
+export default function Upload( {setRemainingClasses, setRemainingProfessors, setRemainingRequirements, setDarsFile}) {
    
     const url = "http://127.0.0.1:8000/dars/";
 
     const onDrop = (files) => {
+      setDarsFile(files)
       sendHTML(files)
     }
 

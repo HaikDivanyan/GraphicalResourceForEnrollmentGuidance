@@ -2,7 +2,7 @@ import './filter.css';
 import React, { useState } from 'react';
 import Select from 'react-select';
 
-export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,  sendRemainingRequirements}) {
+export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,  sendRemainingRequirements, sendFileBack}) {
 
   //sending this to backend
   const [filters, setFilters] = useState({
@@ -22,18 +22,31 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
     maxNumClasses: 5,
   });
 
+  
+
   const url = "http://127.0.0.1:8000/schedules/";
 
+  let formData = new FormData()
+  //send back dars data
+  if (sendFileBack) {
+  formData.append('file', sendFileBack[0])
+  }
+  
   //send to backend
+  const requestBody = {
+    darslist: formData,
+    filters: filters
+  }
   const handleSendFilters = () => {
     console.log('Filters:', filters);
+    console.log('Dars:', sendFileBack);
 
     fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(filters),
+      body: JSON.stringify(requestBody),
     })
       .then(response => response.json())
       .then(data => {

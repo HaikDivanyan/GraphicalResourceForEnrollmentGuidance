@@ -12,11 +12,12 @@ function App() {
   const [remainingClasses, setClasses] = useState();
   const [remainingProfessors, setProfessors ] = useState();
   const [remainingRequirements, setRequirements] = useState();
+  const [file, setFile] = useState();
 
   useEffect(() => {
     // This code will run every time remainingClasses is updated
    // console.log('Remaining Classes:', remainingClasses);
-  }, [remainingClasses, remainingProfessors, remainingRequirements]);
+  }, [remainingClasses, remainingProfessors, remainingRequirements, file]);
 
   return(
     <div>
@@ -29,7 +30,10 @@ function App() {
         setRemainingClasses={setClasses}
         setRemainingProfessors={setProfessors}
         setRemainingRequirements={setRequirements}
+        setDarsFile = {setFile}
       />
+      {console.log("Dars file given")}
+      {console.log(file)}
       <div className='BlueSection'></div>
       <Remaining
         sendRemainingClasses = {remainingClasses}
@@ -41,6 +45,7 @@ function App() {
         sendRemainingClasses = {remainingClasses}
         sendRemainingProfessors = {remainingProfessors}
         sendRemainingRequirements = {remainingRequirements}
+        sendFileBack = {file}
       />
       <div className='BlueSection'></div>
 
