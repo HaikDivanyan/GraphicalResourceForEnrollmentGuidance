@@ -24,7 +24,14 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
 
   const url = "http://127.0.0.1:8000/schedules/";
 
+  //send back dars data
+  const darslist = [sendRemainingProfessors, sendRemainingRequirements, sendRemainingClasses];
   //send to backend
+
+  const requestBody = {
+    filters: filters,
+    darslist: darslist
+  }
   const handleSendFilters = () => {
     console.log('Filters:', filters);
 
@@ -33,7 +40,7 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(filters),
+      body: JSON.stringify(requestBody),
     })
       .then(response => response.json())
       .then(data => {
