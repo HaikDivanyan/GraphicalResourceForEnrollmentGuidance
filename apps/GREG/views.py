@@ -2,9 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view, renderer_classes
-from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from .models import *
 from .scraping.DataController import DataController
@@ -20,12 +18,22 @@ def haik(request):
   return Response("meow")
 
 @api_view(['GET', 'POST'])
+def schedules_api(request):
+  if request.method == "POST":
+    filter_parser(request.data)
+    #  #need function that returns the list of Schedule objects need to be sent 
+    schedules = Schedule.objects.all()
+    scheduleSerializer = ScheduleSerializer(schedules, many=True)
+    return Response(scheduleSerializer.data, status=status.HTTP_200_OK)
+  return Response("Expected POST Request")
+
+@api_view(['GET', 'POST'])
 def upload_file(request):
   if request.method == "POST":
     form = UploadFileForm(request.POST, request.FILES)
     dars = darspars(request.FILES["file"])
     serializer = DarsSerializer(dars)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 def darspars(f) -> Dars:
   dars = dataControler.parseDar(f.read())
@@ -59,13 +67,20 @@ def darspars(f) -> Dars:
        su.save()
   return darsObj
  
-  # professors = Professor.objects.all()
-  # profserializer = ProfessorSerializer(professors, many=True)
-  # requirements = Requirement.objects.all()
-  # reqSerializer = RequirementSerializer(requirements, many = True)
-  # classes = ClassObj.objects.all()
-  # clasSerializer = ClassSerializer(classes, many=True)
-  # response = {'professors': profserializer.data , 'requirements': reqSerializer.data, 'classes': clasSerializer.data}
+def filter_parser (data):
+  filter = UserFilters(  priorityClasses = data.get('priorityClasses'), 
+                      ignoreClasses = data.get('ignoreClasses'), 
+                      priorityRequirements = data.get('priorityRequirements'),
+                      preferredSubjects = data.get('preferredSubjects'),
+                      earliestStartTime = data.get('earliestStartTime'),
+                      latestEndTime = data.get('latestEndTime'),
+                      preferredDays = data.get('preferredDays'),
+                      minClassRating = data.get('minClassRating'),
+                      maxUnits = data.get('maxUnits'),
+                      minUnits = data.get('minUnits'),
+                      minNumClasses = data.get('minNumClasses'),
+                      maxNumClasses =data.get('maxNumClasses'),)
+  filter.save()
   
 
     
