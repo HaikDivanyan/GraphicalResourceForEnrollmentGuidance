@@ -49,9 +49,3 @@ class DarsSerializer (serializers.ModelSerializer):
     class Meta:
         model = Dars
         fields = ['professors', 'requirements', 'classes']
-
-class ScheduleSerializer (serializers.ModelSerializer):
-    classes = ClassSerializer(many=True)
-    class Meta:
-        model = Schedule
-        fields = ['classes', 'rating']
