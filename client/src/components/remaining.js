@@ -1,7 +1,7 @@
 import React from "react";
 import './remaining.css';
 
-export default function Remaining() {
+export default function Remaining({sendRemainingClasses, sendRemainingProfessors, sendRemainingRequirements}) {
 
     return (
     <div className="RemainingSection">
@@ -13,13 +13,24 @@ export default function Remaining() {
         </div>
         <div className="BoxContainer">
             <div className="CoursesBox">
-                {/*placeholder*/}
-                course 1
+            {console.log("in reamin")}
+              {console.log(sendRemainingClasses)}
+              {sendRemainingRequirements.map((course, index) => (
+                  <div key={index}>
+                    {course.name}
+                    <ul>
+                      {course.subrequirements.map((subreq, subIndex) => (
+                        <li key={subIndex}>{subreq}</li>
+                      ))}
+                    </ul>
+                  </div>
+              ))}
+                {/* course 1
                 <br></br>
                 course 2
                 <br></br>
                 course 3
-                <br></br>
+                <br></br> */}
             </div>
         </div>
     </div>
