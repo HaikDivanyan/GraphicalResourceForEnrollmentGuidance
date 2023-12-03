@@ -29,11 +29,12 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
   //send to backend
 
   const requestBody = {
-    filters: filters,
-    darslist: darslist
+    darslist: darslist,
+    filters: filters
   }
   const handleSendFilters = () => {
     console.log('Filters:', filters);
+    console.log('Dars:', darslist);
 
     fetch(url, {
       method: 'POST',
