@@ -31,23 +31,16 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
   if (sendFileBack) {
   formData.append('file', sendFileBack[0])
   }
+  const stringfiedFilters = JSON.stringify(filters);
+  formData.append('filters', stringfiedFilters);
 
-  
-  //send to backend
-  const requestBody = {
-    darslist: formData,
-    filters: filters
-  }
   const handleSendFilters = () => {
     console.log('Filters:', filters);
     console.log('Dars:', sendFileBack[0]);
 
     fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
+      body: formData,
     })
       .then(response => response.json())
       .then(data => {

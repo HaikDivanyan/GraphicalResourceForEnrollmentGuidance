@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.response import Response
-
+import json
 from .models import *
 from .scraping.DataController import DataController
 # Create your views here.
@@ -20,8 +20,13 @@ def haik(request):
 @api_view(['GET', 'POST'])
 def schedules_api(request):
   if request.method == "POST":
-    filter_parser(request.data)
-    #  #need function that returns the list of Schedule objects need to be sent 
+   # parse the file with the following code
+    dars = dataControler.parseDar(request.FILES["file"].read())
+    filterFile = request.POST.get('filters')
+    # filters is the data recieved from the frontend
+    filters = json.loads(filterFile)
+    # use this function to put filters into the models
+    filter_parser(filters)
     schedules = Schedule.objects.all()
     scheduleSerializer = ScheduleSerializer(schedules, many=True)
     return Response(scheduleSerializer.data, status=status.HTTP_200_OK)
@@ -30,7 +35,6 @@ def schedules_api(request):
 @api_view(['GET', 'POST'])
 def upload_file(request):
   if request.method == "POST":
-    form = UploadFileForm(request.POST, request.FILES)
     dars = darspars(request.FILES["file"])
     serializer = DarsSerializer(dars)
     return Response(serializer.data, status=status.HTTP_200_OK)
