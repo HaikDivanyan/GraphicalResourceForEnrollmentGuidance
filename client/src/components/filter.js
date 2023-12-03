@@ -31,6 +31,7 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
   if (sendFileBack) {
   formData.append('file', sendFileBack[0])
   }
+
   
   //send to backend
   const requestBody = {
@@ -39,7 +40,7 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
   }
   const handleSendFilters = () => {
     console.log('Filters:', filters);
-    console.log('Dars:', sendFileBack);
+    console.log('Dars:', sendFileBack[0]);
 
     fetch(url, {
       method: 'POST',
