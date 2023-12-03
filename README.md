@@ -18,6 +18,10 @@ This repo serves as a template for a repository that follows the Scrum process. 
     pip install selenium
     pip install numpy
     pip install webdriver_manager 
+
+    might have to:
+    python manage.py migrate
+    and then something makemigrations
 ```
 
 ## Issues
