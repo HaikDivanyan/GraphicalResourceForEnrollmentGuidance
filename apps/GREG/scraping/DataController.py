@@ -4,6 +4,8 @@ from .BruinwalkController import BruinwalkController
 from .DarsParser import DarsParser
 from .RegistrarController import RegistrarController
 from .ScrapingDataStructures import *
+from .HotSeatController import HotSeatController
+from pathlib import Path
 
 
 class DataController:
@@ -11,7 +13,8 @@ class DataController:
         self.darsParser = DarsParser()
         self.BwController = BruinwalkController()
         self.regController = RegistrarController()
-        with open("apps/GREG/scraping/distro.pkl", "rb") as f:
+        self.hotseatController = HotSeatController()
+        with (Path(__file__).parent / "distro.pkl").open("rb") as f:
             self.distributions = pickle.load(f)
 
     def parseDar(self, dar: str) -> Dars:
@@ -47,6 +50,8 @@ class DataController:
         currClass.rating = self.BwController.getClassRating(currClass)
 
         currClass.gradeDistributions = self._getGradeDistributions(currClass)
+
+        currClass.hosteatGraph = self.hotseatController.getClassGraph(currClass.id, currClass.lectures[0].professors[0])
 
         return currClass
     

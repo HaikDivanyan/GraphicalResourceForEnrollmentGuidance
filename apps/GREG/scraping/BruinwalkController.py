@@ -2,11 +2,11 @@ import pickle
 from .ScrapingDataStructures import ClassObject
 from .ScrapingDataStructures import Professor
 import urllib.request
-
+from pathlib import Path
 
 class BruinwalkController:
     def __init__(self):
-        with open("apps/GREG/scraping/bruinwalk.pkl", "rb") as f:
+        with (Path(__file__).parent / "bruinwalk.pkl").open("rb") as f:
             self.classData = pickle.load(f)
 
     def getClassRating(self, registrarClass: ClassObject) -> float:
@@ -21,7 +21,7 @@ class BruinwalkController:
             rating = None
 
         self.classData[registrarClass.id] = rating
-        with open("bruinwalk.pkl", "wb") as f:
+        with (Path(__file__).parent / "bruinwalk.pkl").open("wb") as f:
             pickle.dump(self.classData, f)
 
         return rating
@@ -40,7 +40,7 @@ class BruinwalkController:
 
         self.classData[professor.name] = rating
 
-        with open("bruinwalk.pkl", "wb") as f:
+        with (Path(__file__).parent / "bruinwalk.pkl").open("wb") as f:
             pickle.dump(self.classData, f)
 
         return rating

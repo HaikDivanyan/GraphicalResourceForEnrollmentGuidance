@@ -10,10 +10,11 @@ import re
 from selenium.webdriver.chrome.service import Service as ChromeService 
 from webdriver_manager.chrome import ChromeDriverManager
 import pickle
+from pathlib import Path
 
 class RegistrarController:
     def __init__(self):
-        with open("apps/GREG/scraping/registrar.pkl", "rb") as f:
+        with (Path(__file__).parent / "registrar.pkl").open("rb") as f:
             self.registrarData = pickle.load(f)
     
     def getClassData(self, currClass: ClassObject) -> RegistrarData:
@@ -301,5 +302,5 @@ class RegistrarController:
                         class_id = self.process_class_id(subject_area,class_name)
                         registrar_data_obj = RegistrarData(class_id, cls_name,units,subject_area, lect_object_list)
                         self.regitsrar_data_objects_dict[class_id] = registrar_data_obj
-        with open("registrar.pkl", "wb") as f:
+        with (Path(__file__).parent / "registrar.pkl").open("rb") as f:
             pickle.dump(self.regitsrar_data_objects_dict, f)
