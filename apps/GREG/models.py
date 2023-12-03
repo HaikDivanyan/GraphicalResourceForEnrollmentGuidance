@@ -1,6 +1,6 @@
-from django.db import models
-from django.core.validators import int_list_validator
 from django import forms
+from django.core.validators import int_list_validator
+from django.db import models
 
 
 class UploadFileForm(forms.Form):
@@ -13,6 +13,7 @@ class Dars(models.Model):
     
 class Schedule (models.Model):
     rating = models.FloatField() #could use ManytoManyField which creates schedule-class table 
+    classes = models.ManyToManyField('ClassObj', related_name='schedules')
 
     def __str__(self):
         return self.rating
@@ -26,7 +27,7 @@ class ClassObj (models.Model):
     hotseatGraph = models.CharField(max_length=100, null=True, blank=True)
     classId = models.CharField(max_length=25) # double check the max length
     name = models.CharField(max_length= 150)
-    schedules= models.ManyToManyField(Schedule, related_name='classes', null=True)
+    # schedules= models.ManyToManyField(Schedule, related_name='classes', null=True)
     def __str__(self):
         return self.name
 
@@ -84,17 +85,18 @@ class Time (models.Model):
         return self.days 
 
 
-class UserFilters (models.Model):
-    priorityClasses =models.CharField(max_length=500, null=True)
-    ignoreClasses = models.CharField(max_length=500, null=True)
-    priorityRequirements = models.CharField(max_length=500, null=True)
-    # subjectArea = models(models.CharField(max_length=10, blank=True),size=8) 
-    preferredSubjects = models.CharField(max_length=500, null=True)
-    earliestStartTime = models.CharField(max_length=10, null=True)
-    latestEndTime = models.CharField(max_length=10, null=True)
-    preferredDays = models.CharField(max_length=500, null=True)
-    minClassRating = models.FloatField(default=3.0 , null=True)
-    maxUnits = models.IntegerField(default=21, null=True)
-    minUnits = models.IntegerField(default=12, null=True)
-    minNumClasses = models.IntegerField(default=3, null=True)
-    maxNumClasses =models.IntegerField(default=5, null=True)
+class UserFilters(models.Model):
+    priorityClasses = models.CharField(max_length=500, null=True, blank=True)
+    ignoreClasses = models.CharField(max_length=500, null=True, blank=True)
+    priorityRequirements = models.CharField(max_length=500, null=True, blank=True)
+    ignoreRequirements = models.CharField(max_length=500, null=True, blank=True)
+    # Assuming preferredSubjects corresponds to 'subject' in the Python class
+    preferredSubjects = models.CharField(max_length=500, null=True, blank=True)
+    earliestStartTime = models.CharField(max_length=10, null=True, blank=True, default='6am')
+    latestEndTime = models.CharField(max_length=10, null=True, blank=True, default='11pm')
+    preferredDays = models.CharField(max_length=500, null=True, blank=True, default="MTWRF")
+    minClassRating = models.FloatField(null=True, blank=True)
+    maxUnits = models.IntegerField(null=True, blank=True, default=12)
+    minUnits = models.IntegerField(null=True, blank=True, default=2)
+    minNumClasses = models.IntegerField(null=True, blank=True, default=1)
+    maxNumClasses = models.IntegerField(null=True, blank=True, default=4)

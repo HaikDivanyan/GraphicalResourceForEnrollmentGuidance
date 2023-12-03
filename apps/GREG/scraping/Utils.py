@@ -5,6 +5,12 @@ class ScheduleObject:
     def __init__(self, classes, rating: int):
         self.classes = classes
         self.rating = rating
+
+    def to_dict(self):
+        return {
+            "classes": [cls.to_dict() for cls in self.classes],
+            "rating": self.rating,
+        }
     
     def __str__(self) -> str:
         class_info = '\n'.join([cls.name for cls in self.classes])
@@ -15,7 +21,7 @@ class UserFilters:
                 preferred_days="MTWRF", latest_end_time='11pm', earliest_start_time='6am',
                 max_units=12, min_units=2, min_num_classes=1, max_num_classes=4,
                 priority_classes=None, ignore_classes=None, priority_reqs=None, ignore_reqs=None,
-                subject=None):
+                min_class_rating = 0, subject=None):
         self.priority_classes = priority_classes
         self.ignore_classes = ignore_classes
         self.priority_reqs = priority_reqs
@@ -28,6 +34,7 @@ class UserFilters:
         self.min_units = min_units
         self.min_num_classes = min_num_classes
         self.max_num_classes = max_num_classes
+        self.min_class_rating = min_class_rating
     
     def __str__(self) -> str:
         return f"preferred days: {self.preferred_days}\nearliest_start_time: {self.earliest_start_time}\nlatest_end_time: {self.latest_end_time}"
