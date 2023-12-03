@@ -30,15 +30,13 @@ function App() {
         setRemainingProfessors={setProfessors}
         setRemainingRequirements={setRequirements}
       />
-      {console.log("HI")}
-      {console.log(remainingClasses)}
-      <div className='BlueSection'></div>
       <div className='BlueSection'></div>
       <Remaining
         sendRemainingClasses = {remainingClasses}
         sendRemainingProfessors = {remainingProfessors}
         sendRemainingRequirements = {remainingRequirements}
       />
+      <div className='BlueSection'></div>
       <Filter
         sendRemainingClasses = {remainingClasses}
         sendRemainingProfessors = {remainingProfessors}

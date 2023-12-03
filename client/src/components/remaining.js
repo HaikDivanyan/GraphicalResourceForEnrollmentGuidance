@@ -13,7 +13,6 @@ export default function Remaining({sendRemainingClasses, sendRemainingProfessors
         </div>
         <div className="BoxContainer">
             <div className="CoursesBox">
-            {console.log("in reamin")}
             {console.log(sendRemainingClasses)}
               {console.log(sendRemainingRequirements)}
               {sendRemainingRequirements && sendRemainingRequirements.map((course, index) => (

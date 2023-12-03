@@ -93,6 +93,7 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
   let subjectOptions1 = [{ value: 'COM SCI', label: 'COM SCI' }];
   let classesOptions1 = [{ value: 'COM SCI 152B', label: 'COM SCI 152B' }];
   let requirementOptions1 = [{value: 'COMPUTER SCIENCE REQUIRED COURSES', label: 'COMPUTER SCIENCE REQUIRED COURSES'}];
+  
   if (sendRemainingClasses) {
     const uniqueSubjectNames = [...new Set(sendRemainingClasses.map(item => item.subjectArea))];
     const uniqueClassNames = [...new Set(sendRemainingClasses.map(item => item.classId))];
@@ -112,19 +113,7 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
   }
   const subjectOptions = subjectOptions1 
   const classesOptions = classesOptions1
-  // const classesOptions = [
-  //   { value: 'COM SCI 152B', label: 'COM SCI 152B' },
-  //   { value: 'COM SCI 162', label: 'COM SCI 174A' },
-  //   { value: 'option3', label: 'Option 3' },
-  //   { value: 'option4', label: 'Option 4' },
-  // ];
   const requirementOptions = requirementOptions1
-  // const requirementOptions = [
-  //   { value: 'COMPUTER SCIENCE REQUIRED COURSES', label: 'COMPUTER SCIENCE REQUIRED COURSES' },
-  //   { value: 'COM SCI 162', label: 'COM SCI 174A' },
-  //   { value: 'option3', label: 'Option 3' },
-  //   { value: 'option4', label: 'Option 4' },
-  // ];
   
   const daysOfWeek = [
     { value: 'Monday', label: 'Monday' },
