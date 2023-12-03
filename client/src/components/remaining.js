@@ -14,15 +14,16 @@ export default function Remaining({sendRemainingClasses, sendRemainingProfessors
         <div className="BoxContainer">
             <div className="CoursesBox">
             {console.log("in reamin")}
-              {console.log(sendRemainingClasses)}
+            {console.log(sendRemainingClasses)}
+              {console.log(sendRemainingRequirements)}
               {sendRemainingRequirements.map((course, index) => (
                   <div key={index}>
                     {course.name}
-                    <ul>
-                      {course.subrequirements.map((subreq, subIndex) => (
-                        <li key={subIndex}>{subreq}</li>
+                    {course.subrequirements.map((subreq, subIndex) => (
+                        <li key={subIndex}>
+                          {subreq.classes}
+                          </li>
                       ))}
-                    </ul>
                   </div>
               ))}
                 {/* course 1
