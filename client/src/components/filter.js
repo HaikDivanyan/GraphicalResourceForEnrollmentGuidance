@@ -41,6 +41,7 @@ export default function Filter() {
       })
       .catch(error => {
         console.error('Error sending filters to backend:', error);
+        console.log('Here is what you tried to send', filters);
       });
   };
 
