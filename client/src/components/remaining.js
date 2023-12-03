@@ -16,7 +16,7 @@ export default function Remaining({sendRemainingClasses, sendRemainingProfessors
             {console.log("in reamin")}
             {console.log(sendRemainingClasses)}
               {console.log(sendRemainingRequirements)}
-              {sendRemainingRequirements.map((course, index) => (
+              {sendRemainingRequirements && sendRemainingRequirements.map((course, index) => (
                   <div key={index}>
                     {course.name}
                     {course.subrequirements.map((subreq, subIndex) => (
