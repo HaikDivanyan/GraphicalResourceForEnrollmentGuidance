@@ -7,8 +7,9 @@ This repo serves as a template for a repository that follows the Scrum process. 
 ## Django Cmmand reference
 ```
     pip3 install virtualenv
-    python -m venv env
-    source .venv/bin/activate
+    python3 -m venv env
+    <!-- instead of the next line, you may have to go into env folder and run 'source bin/activate' -->
+    source .venv/bin/activate 
     python -m pip install django
     python manage.py runserver - starting the development server
     pip install djangorestframework
@@ -17,6 +18,10 @@ This repo serves as a template for a repository that follows the Scrum process. 
     pip install selenium
     pip install numpy
     pip install webdriver_manager 
+
+    might have to:
+    python manage.py migrate
+    and then something makemigrations
 ```
 
 ## Issues
