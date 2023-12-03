@@ -39,7 +39,11 @@ function App() {
         sendRemainingProfessors = {remainingProfessors}
         sendRemainingRequirements = {remainingRequirements}
       />
-      <Filter/>
+      <Filter
+        sendRemainingClasses = {remainingClasses}
+        sendRemainingProfessors = {remainingProfessors}
+        sendRemainingRequirements = {remainingRequirements}
+      />
       <div className='BlueSection'></div>
 
       <Footer/>
