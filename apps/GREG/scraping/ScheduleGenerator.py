@@ -1,9 +1,10 @@
 import json
 from itertools import combinations
 
-from ..models import ClassObj, Dars
+# from ..models import ClassObj, Dars
 from .DataController import DataController
 from .ScheduleRanker import ScheduleRanker
+from .ScrapingDataStructures import *
 from .Utils import ScheduleObject, UserFilters
 
 
@@ -110,26 +111,21 @@ class ScheduleGenerator:
     def sort_schedules(self):
         self.schedules.sort(key=lambda x: x.rating, reverse=True)
 
-def main():
-    d = DataController()
-    with open("scraping test scripts/dar.html") as f:
-        a = d.parseDar(f.read())
+def main(dars: Dars, filters: UserFilters):
+    # d = DataController()
+    # with open("scraping test scripts/dar.html") as f:
+    #     a = d.parseDar(f.read())
 
-    com_sci_elective_subreq = "TWENTY UNITS OF AT LEAST 5 COMPUTER SCIENCE ELECTIVESFROM COMPUTER SCIENCE 111 THROUGH 188"
+    # com_sci_elective_subreq = "TWENTY UNITS OF AT LEAST 5 COMPUTER SCIENCE ELECTIVESFROM COMPUTER SCIENCE 111 THROUGH 188"
 
 
-    filters = UserFilters(earliest_start_time='7am', latest_end_time='6pm', min_num_classes=0, max_num_classes=4,
-                        min_units=1, max_units=15, priority_reqs=[com_sci_elective_subreq], ignore_reqs=[], preferred_days="MTWR")
+    # filters = UserFilters(earliest_start_time='7am', latest_end_time='6pm', min_num_classes=0, max_num_classes=4,
+    #                     min_units=1, max_units=15, priority_reqs=[com_sci_elective_subreq], ignore_reqs=[], preferred_days="MTWR")
 
-    generator = ScheduleGenerator(dars=a, user_filters=filters)
+    generator = ScheduleGenerator(dars, filters)
     generator.generateSchedules()
     generator.sort_schedules()
-    # for s in generator.schedules:
-    #     print(s)
-    #     print('\n')
-
     schedule_dicts = [schedule.to_dict() for schedule in generator.schedules]
 
     json_data = json.dumps(schedule_dicts)
-    print(json_data)
     return json_data

@@ -169,7 +169,7 @@ class ClassObject:
             serializable_grade_distributions = {}
 
         return {
-            "id": self.id,
+            "classId": self.id,
             "units": int(self.units) if isinstance(self.units, numpy.int64) else self.units,
             "subjectArea": self.subjectArea,
             "rating": self.rating,

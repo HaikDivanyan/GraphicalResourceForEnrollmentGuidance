@@ -8,23 +8,25 @@ from .models import *
 from .scraping.DataController import DataController
 # Create your views here.
 from .scraping.ScheduleGenerator import main
+from .scraping.Utils import UserFilters as PythonUserFilters
 #from rest_framework import viewsets
 from .serlializer import *
 
 dataControler = DataController()
 @api_view(['GET', 'POST'])
 def haik(request):
-  serialized_schedules = main()
+  d = DataController()
+  with open("scraping test scripts/dar.html") as f:
+      a = d.parseDar(f.read())
+  serialized_schedules = main(a, PythonUserFilters())
   return Response("meow")
 
 @api_view(['GET', 'POST'])
 def schedules_api(request):
   if request.method == "POST":
-    filter_parser(request.data)
-    #  #need function that returns the list of Schedule objects need to be sent 
-    schedules = Schedule.objects.all()
-    scheduleSerializer = ScheduleSerializer(schedules, many=True)
-    return Response(scheduleSerializer.data, status=status.HTTP_200_OK)
+    filter = filter_parser(request.data)
+    schedules = main(filter, schedules)
+    return Response(schedules, status=status.HTTP_200_OK)
   return Response("Expected POST Request")
 
 @api_view(['GET', 'POST'])
@@ -68,19 +70,19 @@ def darspars(f) -> Dars:
   return darsObj
  
 def filter_parser (data):
-  filter = UserFilters(  priorityClasses = data.get('priorityClasses'), 
-                      ignoreClasses = data.get('ignoreClasses'), 
-                      priorityRequirements = data.get('priorityRequirements'),
-                      preferredSubjects = data.get('preferredSubjects'),
-                      earliestStartTime = data.get('earliestStartTime'),
-                      latestEndTime = data.get('latestEndTime'),
-                      preferredDays = data.get('preferredDays'),
-                      minClassRating = data.get('minClassRating'),
-                      maxUnits = data.get('maxUnits'),
-                      minUnits = data.get('minUnits'),
-                      minNumClasses = data.get('minNumClasses'),
-                      maxNumClasses =data.get('maxNumClasses'),)
-  filter.save()
+  filter = PythonUserFilters(priority_classes= data.get('priorityClasses'), 
+                      ignore_classes = data.get('ignoreClasses'), 
+                      priority_reqs = data.get('priorityRequirements'),
+                      subject = data.get('preferredSubjects'),
+                      earliest_start_time = data.get('earliestStartTime'),
+                      latest_end_time = data.get('latestEndTime'),
+                      preferred_days = data.get('preferredDays'),
+                      min_class_rating= data.get('minClassRating'),
+                      max_units = data.get('maxUnits'),
+                      min_units = data.get('minUnits'),
+                      min_num_classes = data.get('minNumClasses'),
+                      max_num_classes =data.get('maxNumClasses'))
+  return filter
   
 
     
