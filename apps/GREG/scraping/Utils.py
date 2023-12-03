@@ -5,6 +5,12 @@ class ScheduleObject:
     def __init__(self, classes, rating: int):
         self.classes = classes
         self.rating = rating
+
+    def to_dict(self):
+        return {
+            "classes": [cls.to_dict() for cls in self.classes],
+            "rating": self.rating,
+        }
     
     def __str__(self) -> str:
         class_info = '\n'.join([cls.name for cls in self.classes])

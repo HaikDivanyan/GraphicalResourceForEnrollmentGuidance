@@ -1,5 +1,7 @@
 from datetime import datetime
 
+import numpy
+
 from .Utils import ensure_time_format, format_time_str
 
 
@@ -9,16 +11,37 @@ class SubRequirement:
         self.classes = classes
         self.units = units
         self.count = count
+    
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "classes": self.classes,
+            "units": self.units,
+            "count": int(self.count),
+        }
 
 class Requirement:
     def __init__(self, name: str = None, subrequirements: list[SubRequirement] = None):
         self.name = name
         self.subrequirements = subrequirements
 
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "subrequirements": [subreq.to_dict() for subreq in self.subrequirements],
+        }
+
 class Time:
     def __init__(self, days: str = None, hours: str = None):
         self.days = days
         self.hours = hours
+
+    def to_dict(self):
+        return {
+            "days": self.days,
+            "hours": self.hours,
+        }
 
     def __str__(self) -> str:
         return f"{self.days} {self.hours}"
@@ -66,6 +89,12 @@ class Professor:
     def __init__(self, name: str = None, rating: float = None):
         self.name = name
         self.rating = rating
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "rating": self.rating,
+        }
     
     def __str__(self) -> str:
         return f"Professor: {self.name}, Rating: {self.rating}"
@@ -74,6 +103,12 @@ class DiscussionSection:
     def __init__(self, id: str = None, times: list[Time] = None):
         self.id = id
         self.times = times
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "times": [time.to_dict() for time in self.times],
+        }
     
     def __str__(self) -> str:
         times_str = ', '.join(str(time) for time in self.times)
@@ -85,6 +120,14 @@ class Lecture:
         self.times = times
         self.discussions = discussions
         self.professors = professors
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "times": [time.to_dict() for time in self.times],
+            "discussions": [discussion.to_dict() for discussion in self.discussions],
+            "professors": self.professors,
+        }
 
     def __str__(self) -> str:
         times_str = ', '.join(str(time) for time in self.times)
@@ -117,6 +160,24 @@ class ClassObject:
             f"Grade Distributions: {grade_dist_str}\n"
             f"Lectures:\n{lectures_str}"
         )
+    
+    def to_dict(self):
+        # Handle gradeDistributions if it's None
+        if self.gradeDistributions is not None:
+            serializable_grade_distributions = {str(key): [int(val) if isinstance(val, numpy.int64) else val for val in value] for key, value in self.gradeDistributions.items()}
+        else:
+            serializable_grade_distributions = {}
+
+        return {
+            "id": self.id,
+            "units": int(self.units) if isinstance(self.units, numpy.int64) else self.units,
+            "subjectArea": self.subjectArea,
+            "rating": self.rating,
+            "gradeDistributions": serializable_grade_distributions,
+            "hotseatGraph": self.hosteatGraph,
+            "lectures": [lecture.to_dict() for lecture in self.lectures],
+            "name": self.name,
+        }
 
 class Dars:
     def __init__(self, requirements: list[Requirement] = None, classes: list[ClassObject] = None, professors: list[Professor] = None):
@@ -131,3 +192,12 @@ class RegistrarData:
         self.units = units
         self.subjectArea = subjectArea
         self.lectures = lectures
+
+    def to_dict(self):
+        return {
+            "classId": self.classId,
+            "className": self.className,
+            "units": int(self.units),
+            "subjectArea": self.subjectArea,
+            "lectures": [lecture.to_dict() for lecture in self.lectures],
+        }

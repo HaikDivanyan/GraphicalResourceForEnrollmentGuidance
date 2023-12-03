@@ -1,3 +1,4 @@
+import json
 from itertools import combinations
 
 from ..models import ClassObj, Dars
@@ -116,16 +117,6 @@ def main():
 
     com_sci_elective_subreq = "TWENTY UNITS OF AT LEAST 5 COMPUTER SCIENCE ELECTIVESFROM COMPUTER SCIENCE 111 THROUGH 188"
 
-    # for req in a.requirements:
-    #     if req.name == "COMPUTER SCIENCE REQUIRED COURSES":
-    #         for subreq in req.subrequirements:
-    #             print(subreq.name)
-    #             if subreq.name == com_sci_elective_subreq:
-    #                 for cls in subreq.classes:
-    #                     print(cls)
-                        # if cls == "COM SCI 162":
-                        #     subreq.classes.remove(cls)
-
 
     filters = UserFilters(earliest_start_time='7am', latest_end_time='6pm', min_num_classes=0, max_num_classes=4,
                         min_units=1, max_units=15, priority_reqs=[com_sci_elective_subreq], ignore_reqs=[], preferred_days="MTWR")
@@ -133,7 +124,12 @@ def main():
     generator = ScheduleGenerator(dars=a, user_filters=filters)
     generator.generateSchedules()
     generator.sort_schedules()
-    for s in generator.schedules:
-        print(s)
-        print('\n')
-    print("Done!")
+    # for s in generator.schedules:
+    #     print(s)
+    #     print('\n')
+
+    schedule_dicts = [schedule.to_dict() for schedule in generator.schedules]
+
+    json_data = json.dumps(schedule_dicts)
+    print(json_data)
+    return json_data

@@ -14,7 +14,7 @@ from .serlializer import *
 dataControler = DataController()
 @api_view(['GET', 'POST'])
 def haik(request):
-  main()
+  serialized_schedules = main()
   return Response("meow")
 
 @api_view(['GET', 'POST'])
