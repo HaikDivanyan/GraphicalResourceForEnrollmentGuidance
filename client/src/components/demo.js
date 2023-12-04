@@ -200,9 +200,9 @@ import canvasToSvg from "canvas-to-svg";
               <AppointmentTooltip.Content
                 {...restProps}
                 appointmentData={appointmentData}
-                style={{ ...style, whiteSpace: 'normal' }}
+                style={{ ...style, width: '400px', whiteSpace: 'normal' }}
               >
-                <div>
+                <div className='classInfo'>
                     <div>
                         {`Professor: ${appointmentData.professors}`}
                     </div>
@@ -222,7 +222,7 @@ import canvasToSvg from "canvas-to-svg";
                             ))}
                         </ul>
                     </div>
-                    <div >
+                    <div style={{marginBottom: "8px"}}>
                             HotSeat
                         {/* <canvas id="gradeHistogram" width="10" height="5"></canvas> */}
             

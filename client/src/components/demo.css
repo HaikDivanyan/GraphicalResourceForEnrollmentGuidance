@@ -58,3 +58,12 @@
   min-height: 200px;
   width: 500px;
 }
+
+.classInfo {
+  padding: 20px;
+}
+
+.css-1fklddj-MuiModal-root-MuiPopover-root .Layout-popover {
+  border-radius: 8px;
+  width: 825px !important;
+}
