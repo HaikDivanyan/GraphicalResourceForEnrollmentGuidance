@@ -302,7 +302,7 @@ import canvasToSvg from "canvas-to-svg";
         const content  = document.getElementById('capture');
         if (content) {
           const pdfOptions = {
-            margin: 10,
+            margin: 0.2,
             filename: 'document.pdf',
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2 },
