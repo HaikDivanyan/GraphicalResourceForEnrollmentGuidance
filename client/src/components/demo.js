@@ -162,8 +162,8 @@ import canvasToSvg from "canvas-to-svg";
               dataset.data.forEach(frequency => {
                 maxFreq = Math.max(maxFreq, frequency);
               })
-            }) 
-
+           
+       
              console.log("MAX FREQ", maxFreq);
              const svg = d3.select(svgElement);
              const xScale = d3.scaleBand().domain(categories).range([0, width]).paddingOuter(.9); //0.1
@@ -186,6 +186,7 @@ import canvasToSvg from "canvas-to-svg";
                 //.attr("transform", "translate(0," + 10 +")")
                 .call(d3.axisLeft(yScale).ticks(2));
               console.log(svgElement, new XMLSerializer().serializeToString(svgElement));
+            }) 
               const appointment = {
                 title: `${course.subjectArea} ${course.name}`,
                 startDate,
@@ -253,13 +254,14 @@ import canvasToSvg from "canvas-to-svg";
                         </ul>
                     </div>
                     <div >
-                        BruinWalk:
+                            HotSeat
                         {/* <canvas id="gradeHistogram" width="10" height="5"></canvas> */}
             
                     </div>
                     <div>
                     {/* Render the hotseatGraph HTML content */}
                     <div dangerouslySetInnerHTML={{ __html: appointmentData.hotseatGraph }} />
+                    <div >BruinWalk</div>
                     <div dangerouslySetInnerHTML={{ __html: appointmentData.gradeHistogram }} />
                   </div>
                 </div>
