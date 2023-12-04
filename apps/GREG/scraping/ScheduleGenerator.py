@@ -100,7 +100,7 @@ class ScheduleGenerator:
         if len(self.priority_schedule) == self.filters.max_num_classes:
             return [tuple(self.priority_schedule)]
 
-        for r in range(self.filters.min_num_classes + len(self.priority_schedule), self.filters.max_num_classes + 1):
+        for r in range(self.filters.min_num_classes + len(self.priority_schedule), self.filters.max_num_classes):
             for combo in combinations(self.filtered_classes, r):
                 combo += tuple([cls for cls in self.priority_schedule])
                 total_units = sum(cls.units for cls in combo)
@@ -146,6 +146,7 @@ def main(dars: Dars, filters: UserFilters):
     if filters.latest_end_time[-2:] != "pm":
         filters.latest_end_time += "pm"
 
+    filters.earliest_start_time = "9am"
     filters.latest_end_time = "8pm"
     generator = ScheduleGenerator(dars, filters)
     generator.generateSchedules()
