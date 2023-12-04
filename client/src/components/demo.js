@@ -230,7 +230,7 @@ import canvasToSvg from "canvas-to-svg";
                     <div>
                     {/* Render the hotseatGraph HTML content */}
                     <div dangerouslySetInnerHTML={{ __html: appointmentData.hotseatGraph }} />
-                    <div >BruinWalk</div>
+                    <div >Grade Distribution</div>
                     <div dangerouslySetInnerHTML={{ __html: appointmentData.gradeHistogram }} />
                   </div>
                 </div>
