@@ -47,7 +47,7 @@ const generateAppointments = (classes) => {
           endMinute,
         };
       };
-  
+    if (classes) {
     classes.forEach((course) => {
       course.lectures.forEach((lecture) => {
         lecture.times.forEach(({ days, hours }) => {
@@ -86,7 +86,10 @@ const generateAppointments = (classes) => {
         });
       });
     });
-  
+    }
+    else {
+      console.log("NO CLASSES")
+    }
     console.log("appintments: ", appointments);
     return appointments;
   };
@@ -146,7 +149,7 @@ const generateAppointments = (classes) => {
     constructor(props) {
       super(props);
   
-      console.log('schedules in constructor:', schedules);
+      console.log('schedules in constructor:', this.props.sendScheduleIn);
   
       this.state = {
         currentDate: '2023-12-03',
@@ -155,34 +158,48 @@ const generateAppointments = (classes) => {
         currentScheduleIndex: 0,
       };
     }
-
+   
     handleNextSchedule = () => {
       this.setState((prevState) => ({
-        currentScheduleIndex: (prevState.currentScheduleIndex + 1) % schedules.length,
+        currentScheduleIndex: (prevState.currentScheduleIndex + 1) % this.props.sendScheduleIn.length,
       }));
     };
   
     handlePrevSchedule = () => {
       this.setState((prevState) => ({
         currentScheduleIndex:
-          (prevState.currentScheduleIndex - 1 + schedules.length) % schedules.length,
+          (prevState.currentScheduleIndex - 1 + this.props.sendScheduleIn.length) % this.props.sendScheduleIn.length,
       }));
     };
   
     render() {
+      
       const { currentScheduleIndex } = this.state;
-      const currentSchedule = schedules[currentScheduleIndex];
+      let currentSchedule1 = '';
+      if (this.props.sendScheduleIn) {
+        currentSchedule1 = this.props.sendScheduleIn;
+        //[currentScheduleIndex];
+        console.log("Current schedule")
+        console.log(currentSchedule1)
+        console.log(currentSchedule1[0].classes)
+      
+      }
+      const currentSchedule = currentSchedule1[currentScheduleIndex];
   
       return (
         <div>
+          {this.props.sendScheduleIn ? (
+          <>
           <Schedule schedule={currentSchedule} />
           <div className="BoxContainer" style={{ marginTop: '15px' }}>
             <button className="prevSchedule" onClick={this.handlePrevSchedule}>Previous Schedule</button>
             <button className="nextSchedule" onClick={this.handleNextSchedule}>Next Schedule</button>
           </div>
           <div className="BoxContainer">
-            <div className='scheduleIndex'>Showing Schedule {currentScheduleIndex + 1} of {schedules.length}</div>
+            <div className='scheduleIndex'>Showing Schedule {currentScheduleIndex + 1} of {this.props.sendScheduleIn.length}</div>
           </div>
+          </>
+           ) : console.log("not ready")}
         </div>
       );
     }

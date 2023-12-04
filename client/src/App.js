@@ -15,11 +15,12 @@ function App() {
   const [remainingProfessors, setProfessors ] = useState();
   const [remainingRequirements, setRequirements] = useState();
   const [file, setFile] = useState();
+  const [schedules, setSchedules] = useState();
 
   useEffect(() => {
     // This code will run every time remainingClasses is updated
-   // console.log('Remaining Classes:', remainingClasses);
-  }, [remainingClasses, remainingProfessors, remainingRequirements, file]);
+    console.log('Schedules:', schedules);
+  }, [remainingClasses, remainingProfessors, remainingRequirements, file, schedules]);
 
   return(
     <div>
@@ -48,10 +49,13 @@ function App() {
         sendRemainingProfessors = {remainingProfessors}
         sendRemainingRequirements = {remainingRequirements}
         sendFileBack = {file}
+        setReturnedSchedule = {setSchedules}
       />
       <div className='BlueSection'></div>
-      <Schedule/>
-      <Demo/>
+      {/* <Schedule/> */}
+      <Demo
+        sendScheduleIn = {schedules}
+      />
       <Footer/>
     </div>
   )

@@ -2,7 +2,7 @@ import './filter.css';
 import React, { useState } from 'react';
 import Select from 'react-select';
 
-export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,  sendRemainingRequirements, sendFileBack}) {
+export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,  sendRemainingRequirements, sendFileBack, setReturnedSchedule}) {
 
   //sending this to backend
   const [filters, setFilters] = useState({
@@ -44,7 +44,9 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Response from backend:', data);
+        console.log('Response from backend:', JSON.parse(data));
+        setReturnedSchedule(JSON.parse(data));
+        console.log(JSON.parse(data)[0])
       })
       .catch(error => {
         console.error('Error sending filters to backend:', error);
