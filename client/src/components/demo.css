@@ -20,6 +20,17 @@
     background-color: #8BB8E8; 
 }
 
+  .downloadSchedule {
+    background-color: #ff8000;
+    height: 40px;
+    border-radius: 20px;
+    border: 2px solid white;
+    width: 150px;
+  }
+  .downloadSchedule:active {
+    background-color: #8BB8E8; 
+  }
+
   .nextSchedule {
     background-color: #FFD100;
     height: 40px;
@@ -34,4 +45,15 @@
 
 .scheduleIndex {
     padding: 12px;
+}
+
+.Canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 1px solid;
+  min-height: 200px;
+  width: 500px;
 }
