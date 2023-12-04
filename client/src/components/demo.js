@@ -187,7 +187,7 @@ import canvasToSvg from "canvas-to-svg";
     
     return (
       <Paper >
-        <Scheduler data={data} height={1200}>
+        <Scheduler data={data} height={1400}>
           <ViewState currentDate={schedule.currentDate} />
           <WeekView startDayHour={8} endDayHour={22} />
           <div onClick={()=>{console.log("TEST")}}>
