@@ -14,127 +14,6 @@ import Chart from "chart.js/auto";
 import html2canvas from 'html2canvas';
 import canvasToSvg from "canvas-to-svg";
 
-// import { schedules } from './Demo/scheduleData';
-
-
-
-// const generateAppointments = (classes, prevchartref) => {
- 
-//     const appointments = [];
-
-//     const parseHours = (hoursString) => {
-//         const [startPart, endPart] = hoursString.split('-').map(part => part.trim());
-        
-//         const parseTimePart = (timePart) => {
-//             const [hourStr, minuteStr] = timePart.match(/\d+|\bam\b|\bpm\b/g);
-//             const amPm = timePart.includes('pm') ? 'pm' : timePart.includes('am') ? 'am' : '';
-//             let hour = parseInt(hourStr, 10);
-//             const minute = minuteStr ? parseInt(minuteStr, 10) : 0;
-          
-//             if (amPm === 'pm' && hour < 12) {
-//               // Convert to 24-hour format
-//               hour += 12;
-//             } else if (amPm === 'am' && hour === 12) {
-//               // Special case: 12 am should be 0 in 24-hour format
-//               hour = 0;
-//             }
-          
-//             return { hour, minute };
-//           };
-      
-//         const { hour: startHour, minute: startMinute } = parseTimePart(startPart);
-//         const { hour: endHour, minute: endMinute } = parseTimePart(endPart);
-      
-//         return {
-//           startHour,
-//           startMinute,
-//           endHour,
-//           endMinute,
-//         };
-//       };
-//     if (classes) {
-//     classes.forEach((course) => {
-//       course.lectures.forEach((lecture) => {
-//         lecture.times.forEach(({ days, hours }) => {
-//           let { startHour, startMinute, endHour, endMinute } = parseHours(hours);
-
-//           days.split('').forEach((day) => {
-//             const dayOffset = {
-//               M: 0,
-//               T: 1,
-//               W: 2,
-//               R: 3,
-//               F: 4,
-//             }[day];
-  
-//             const startDate = new Date(2023, 11, 4);
-//             startDate.setDate(startDate.getDate() + dayOffset);
-//             startDate.setHours(startHour, startMinute);
-  
-//             const endDate = new Date(2023, 11, 4);
-//             endDate.setDate(endDate.getDate() + dayOffset);
-//             endDate.setHours(endHour, endMinute);
-
-//             const categories = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'];
-    
-//             const datasets = Object.entries(course.gradeDistributions).map(([key, values]) => ({
-//                 label: key,
-//                 data: values,
-//                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
-//                 borderColor: 'rgba(75, 192, 192, 1)',
-//                 borderWidth: 1
-//             }));
-
-//             if (prevchartref.current) {
-//               prevchartref.current.destroy();
-//             }
-//             const ctx = document.getElementById('gradeHistogram').getContext('2d');
-            
-//             prevchartref.current = new Chart(ctx, {
-//               type: 'bar',
-//               data: {
-//               labels: categories,
-//               datasets: datasets
-//               },
-//               options: {
-//               scales: {
-//                   x: {
-//                       type: 'category',
-//                       labels: categories
-//                   },
-//                   y: {
-//                       beginAtZero: true,
-//                       stepSize: 1
-//                   }
-//               }
-//               }
-//               });
-  
-//             const appointment = {
-//               title: `${course.subjectArea} ${course.name}`,
-//               startDate,
-//               endDate,
-//               professors: lecture.professors.join(', '),
-//               rating: course.rating,
-//               units: course.units,
-//               discussions: lecture.discussions,
-//               hotseatGraph: course.hotseatGraph,
-            
-
-//             };
-//             appointments.push(appointment);
-//           });
-//         });
-//       });
-//     });
-//     }
-//     else {
-//       console.log("NO CLASSES")
-//     }
-//     console.log("appintments: ", appointments);
-//     return appointments;
-//   };
-
   const Schedule = ({ schedule }) => {
 
     const chartRef = useRef(null);
@@ -261,11 +140,11 @@ import canvasToSvg from "canvas-to-svg";
              console.log("IMAGE", imageString);
              if (datasets.length > 0) {
               console.log("drawing hist")
-              document.body.appendChild(containerDiv);
+              document.body.appendChild(canvas);
              }
-             canvas.style.position = 'absolute';
-             canvas.style.top = '0';
-             canvas.style.left = '0';
+            //  canvas.style.position = 'absolute';
+            //  canvas.style.top = '0';
+            //  canvas.style.left = '0';
              canvas.style.zIndex = '99';
              canvas.id = "test-canvas"
               const appointment = {
@@ -277,7 +156,7 @@ import canvasToSvg from "canvas-to-svg";
                 units: course.units,
                 discussions: lecture.discussions,
                 hotseatGraph: course.hotseatGraph,
-                gradeHistogram: imageString
+                gradeHistogram: new XMLSerializer().serializeToString(canvas)
               
   
               };
