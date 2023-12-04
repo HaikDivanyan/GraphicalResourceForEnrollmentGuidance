@@ -68,7 +68,8 @@ class ScheduleGenerator:
                 else:
                     filtered_classes.append(cls)
 
-        
+        for cls in filtered_classes:
+            cls.lectures = [cls.lectures[0]]
         self.filtered_classes = filtered_classes
 
     def check_time_conflict(self, schedule: ScheduleObject):
@@ -139,6 +140,16 @@ def main(dars: Dars, filters: UserFilters):
     #             print(cls)
 
     # filters.max_num_classes = 3
+    print(filters)
+    if filters.earliest_start_time[-2:] != "am":
+        filters.earliest_start_time += "am" 
+    if filters.latest_end_time[-2:] != "pm":
+        filters.latest_end_time += "pm"
+
+    filters.latest_end_time = "8pm"
+    generator = ScheduleGenerator(dars, filters)
+    generator.generateSchedules()
+    generator.sort_schedules()
     generator = ScheduleGenerator(dars, filters)
     generator.generateSchedules()
     generator.sort_schedules()
