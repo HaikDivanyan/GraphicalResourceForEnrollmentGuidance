@@ -1,4 +1,5 @@
 import pickle
+from types import NoneType
 from .ScrapingDataStructures import ClassObject
 from .ScrapingDataStructures import Professor
 import urllib.request
@@ -9,7 +10,13 @@ class BruinwalkController:
         with (Path(__file__).parent / "bruinwalk.pkl").open("rb") as f:
             self.classData = pickle.load(f)
 
+        if __debug__:
+            assert type(self.classData) == dict
+
     def getClassRating(self, registrarClass: ClassObject) -> float:
+        if __debug__:
+            assert type(registrarClass) == ClassObject
+
         if registrarClass.id in self.classData:
             return self.classData[registrarClass.id]
         
@@ -24,9 +31,15 @@ class BruinwalkController:
         with (Path(__file__).parent / "bruinwalk.pkl").open("wb") as f:
             pickle.dump(self.classData, f)
 
+        if __debug__:
+            assert type(rating) == float or type(rating) == NoneType
+
         return rating
     
     def getProfessorRating(self, professor: Professor) -> float:
+        if __debug__:
+            assert type(professor) == Professor
+
         if professor.name in self.classData:
             return self.classData[professor.name]
         
@@ -37,6 +50,9 @@ class BruinwalkController:
             rating = float(html[i:i+3])
         except Exception as e:
             rating = None
+
+        if __debug__:
+            assert type(rating) == float or type(rating) == NoneType
 
         self.classData[professor.name] = rating
 
