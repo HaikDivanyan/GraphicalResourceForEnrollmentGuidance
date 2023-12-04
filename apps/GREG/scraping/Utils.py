@@ -37,7 +37,22 @@ class UserFilters:
         self.min_class_rating = min_class_rating
     
     def __str__(self) -> str:
-        return f"preferred days: {self.preferred_days}\nearliest_start_time: {self.earliest_start_time}\nlatest_end_time: {self.latest_end_time}"
+        return (
+            f"UserFilters:\n"
+            f"  Preferred Days: {self.preferred_days}\n"
+            f"  Earliest Start Time: {self.earliest_start_time}\n"
+            f"  Latest End Time: {self.latest_end_time}\n"
+            f"  Max Units: {self.max_units}\n"
+            f"  Min Units: {self.min_units}\n"
+            f"  Min Number of Classes: {self.min_num_classes}\n"
+            f"  Max Number of Classes: {self.max_num_classes}\n"
+            f"  Priority Classes: {self.priority_classes}\n"
+            f"  Ignore Classes: {self.ignore_classes}\n"
+            f"  Priority Requirements: {self.priority_reqs}\n"
+            f"  Ignore Requirements: {self.ignore_reqs}\n"
+            f"  Subject: {self.subject}\n"
+            f"  Minimum Class Rating: {self.min_class_rating}"
+        )
 
 def ensure_time_format(time_str):
     """
