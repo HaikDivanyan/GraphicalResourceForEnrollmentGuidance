@@ -88,62 +88,18 @@ import canvasToSvg from "canvas-to-svg";
               }));
   
              
-              // if (chartRef.current) {
-              //   console.log("theres a current")
-              //   chartRef.current.destroy();
-              // }
              
-              // console.log(document.getElementById('gradeHistogram'))
-            
-              //const ctx = document.getElementById('gradeHistogram').getContext('2d');
-
-              // const ctx = new canvasToSvg(833, 300);
               const canvas = document.createElement('canvas');
               canvas.width = 400;
               canvas.height = 200;
               var ctx = canvas.getContext('2d');
              
-              // chartRef.current = new Chart(ctx, {
-              // console.log("CHART DATA", categories, datasets);
-              // new Chart(ctx, {
-
-              //   type: 'bar',
-              //   data: {
-              //   labels: categories,
-              //   datasets: datasets
-              //   },
-              //   options: {
-              //   scales: {
-              //       x: {
-              //           type: 'category',
-              //           labels: categories
-              //       },
-              //       y: {
-              //           beginAtZero: true,
-              //           stepSize: 1
-              //       }
-              //   }
-              //   }
-              //   });
-              // ctx.fillStyle = 'red';
-              // ctx.fillRect(50,50,300,100);
-              // console.log("CONTEXT", ctx);
-              // }
-             // setTimeout(() => {console.log(document.getElementById('gradeHistogram'))}, 1000)
-            //  const mySerializedSVG = ctx.getSerializedSvg();
-            //  console.log("SERIALIZED", mySerializedSVG)
-            //  console.log("SVG STRING", new XMLSerializer().serializeToString(ctx.getSvg()))
+           
              const image = new Image();
              image.src = canvas.toDataURL();
              const imageString = new XMLSerializer().serializeToString(image);
              console.log("IMAGE", imageString);
-            //  if (datasets.length > 0) {
-            //   console.log("drawing hist")
-            //   document.body.appendChild(canvas);
-            //  }
-            //  canvas.style.position = 'absolute';
-            //  canvas.style.top = '0';
-            //  canvas.style.left = '0';
+      
              canvas.style.zIndex = '99';
              canvas.id = "test-canvas"
              
