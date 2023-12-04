@@ -1,5 +1,4 @@
 import pickle
-from types import NoneType
 
 from .BruinwalkController import BruinwalkController
 from .DarsParser import DarsParser
@@ -18,14 +17,7 @@ class DataController:
         with (Path(__file__).parent / "distro.pkl").open("rb") as f:
             self.distributions = pickle.load(f)
 
-        if __debug__:
-            assert type(self.distributions) == dict
-
     def parseDar(self, dar: str) -> Dars:
-        if __debug__:
-            assert type(dar) == str
-            assert len(dar) > 0
-
         tempClasses, requirements = self.darsParser.parseDar(dar)
         classes = []
         professors = []
@@ -42,17 +34,10 @@ class DataController:
         
         return Dars(requirements, classes, professors)
 
-    def _getClassInfo(self, cid: str) -> ClassObject:
-        if __debug__:
-            assert type(cid) == str
+    def _getClassInfo(self, cid) -> ClassObject:
 
         currClass = ClassObject(id=cid)
         regData = self.regController.getClassData(currClass)
-
-        if __debug__:
-            assert type(regData) == RegistrarData or type(regData) == NoneType
-            assert type(regData.units) == str or type(regData.units) == NoneType
-
 
         if regData == None:
             return None
@@ -64,25 +49,15 @@ class DataController:
 
         currClass.rating = self.BwController.getClassRating(currClass)
 
-        if __debug__:
-            assert type(currClass.rating) == float or type(currClass.rating) == NoneType
-
         currClass.gradeDistributions = self._getGradeDistributions(currClass)
 
         currClass.hosteatGraph = self.hotseatController.getClassGraph(currClass.id, currClass.lectures[0].professors[0])
 
-        if __debug__:
-            assert type(currClass.hosteatGraph) == str or type(currClass.hosteatGraph) == NoneType
-
         return currClass
     
     def _getProfessorInfo(self, profName: str) -> Professor:
-        if __debug__:
-            assert type(profName) == str or type(profName) == NoneType
         p = Professor(profName)
         p.rating = self.BwController.getProfessorRating(p)
-        if __debug__:
-            assert type(p.rating) == float or type(p.rating) == NoneType
         return p
     
     def _getGradeDistributions(self, currClass: ClassObject) -> dict[list[int]]:
