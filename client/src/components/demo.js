@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as d3 from 'd3';
 import Paper from '@mui/material/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
@@ -147,6 +148,42 @@ import canvasToSvg from "canvas-to-svg";
             //  canvas.style.left = '0';
              canvas.style.zIndex = '99';
              canvas.id = "test-canvas"
+
+             const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+
+             // Set attributes for the SVG element
+             svgElement.setAttribute("width", "500");
+             svgElement.setAttribute("height", "300");
+
+             const height = 100;
+             const width = 100;
+             let maxFreq = 0
+             datasets.forEach((dataset) => {
+              console.log("DATASET", dataset);
+              dataset.data.forEach(frequency => {
+                maxFreq = Math.max(maxFreq, frequency);
+              })
+            }) 
+
+             console.log("MAX FREQ", maxFreq);
+             const svg = d3.select(svgElement);
+             const xScale = d3.scaleBand().domain(categories).range([0, width]).padding(0.1);
+             const yScale = d3.scaleLinear().domain([0, Math.ceil(maxFreq*1.1)]).range([height,0]);
+             console.log("DATA", datasets[0].data)
+             svg.selectAll(".bar")
+                .data(datasets[0].data) // convert this to averages or something
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", (d, i)=> xScale(i))
+                .attr("y", d=> 100 - d)
+                .attr('width', xScale.bandwidth())
+                .attr("height", d=> d)
+              svg.append("g")
+                .attr("transform", "translate(0," + height +")")
+                .call(d3.axisBottom(xScale));
+              svg.append("g")
+                .call(d3.axisLeft(yScale));
+              console.log(svgElement, new XMLSerializer().serializeToString(svgElement));
               const appointment = {
                 title: `${course.subjectArea} ${course.name}`,
                 startDate,
@@ -156,7 +193,7 @@ import canvasToSvg from "canvas-to-svg";
                 units: course.units,
                 discussions: lecture.discussions,
                 hotseatGraph: course.hotseatGraph,
-                gradeHistogram: new XMLSerializer().serializeToString(canvas)
+                gradeHistogram: new XMLSerializer().serializeToString(svgElement)
               
   
               };
@@ -304,7 +341,7 @@ import canvasToSvg from "canvas-to-svg";
           <div className="BoxContainer" style={{ marginTop: '15px' }}>
             <button className="prevSchedule" onClick={this.handlePrevSchedule}>Previous Schedule</button>
             <button className="nextSchedule" onClick={this.handleNextSchedule}>Next Schedule</button>
-            <button className="downloadSchedule" onClick={handleCaptureScreenshot}>Download Schedule Image</button>
+            <button className="downloadSchedule" onClick={handleCaptureScreenshot}>Save Schedule</button>
           </div>
           <div className="BoxContainer">
             <div className='scheduleIndex'>Showing Schedule {currentScheduleIndex + 1} of {this.props.sendScheduleIn.length}</div>
