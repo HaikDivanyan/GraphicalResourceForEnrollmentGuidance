@@ -7,6 +7,7 @@ import Remaining from './components/remaining';
 import Footer from './components/footer';
 import Filter from './components/filter';
 import Schedule from './components/schedule';
+import Download from './components/download';
 import Demo from './components/demo';
 import './App.css';
 
@@ -56,6 +57,8 @@ function App() {
       <Demo
         sendScheduleIn = {schedules}
       />
+      <div className='BlueSection'></div>
+      {/* <Download/> */}
       <Footer/>
     </div>
   )
