@@ -6,7 +6,12 @@ import Upload from './components/upload';
 import Remaining from './components/remaining';
 import Footer from './components/footer';
 import Filter from './components/filter';
+<<<<<<< HEAD
 import Download from './components/download';
+=======
+import Schedule from './components/schedule';
+import Demo from './components/demo';
+>>>>>>> dcf004b (DISPLAY SCHEDULES BASED ON SAMPLE DATA)
 import './App.css';
 
 function App() {
@@ -51,6 +56,8 @@ function App() {
       <div className='BlueSection'></div>
       <Download/>
       <div className='BlueSection'></div>
+      <Schedule/>
+      <Demo/>
       <Footer/>
     </div>
   )
