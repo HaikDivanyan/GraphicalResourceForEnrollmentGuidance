@@ -146,9 +146,10 @@ import canvasToSvg from "canvas-to-svg";
             //  canvas.style.left = '0';
              canvas.style.zIndex = '99';
              canvas.id = "test-canvas"
+             
 
              const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-
+             
              // Set attributes for the SVG element
              svgElement.setAttribute("width", "500");
              svgElement.setAttribute("height", "300");
@@ -165,8 +166,9 @@ import canvasToSvg from "canvas-to-svg";
 
              console.log("MAX FREQ", maxFreq);
              const svg = d3.select(svgElement);
-             const xScale = d3.scaleBand().domain(categories).range([0, width]).paddingOuter(.8); //0.1
+             const xScale = d3.scaleBand().domain(categories).range([0, width]).paddingOuter(.9); //0.1
              const yScale = d3.scaleLinear().domain([0, Math.ceil(maxFreq*1.1)]).range([height,0]);
+             yScale.domain([0, Math.ceil(maxFreq * 1.1)]);
              console.log("DATA", datasets[0].data)
              svg.selectAll(".bar")
                 .data(datasets[0].data) // convert this to averages or something
@@ -181,7 +183,8 @@ import canvasToSvg from "canvas-to-svg";
                 .attr("transform", "translate(0," + height +")")
                 .call(d3.axisBottom(xScale));
               svg.append("g")
-                .call(d3.axisLeft(yScale));
+                //.attr("transform", "translate(0," + 10 +")")
+                .call(d3.axisLeft(yScale).ticks(2));
               console.log(svgElement, new XMLSerializer().serializeToString(svgElement));
               const appointment = {
                 title: `${course.subjectArea} ${course.name}`,
