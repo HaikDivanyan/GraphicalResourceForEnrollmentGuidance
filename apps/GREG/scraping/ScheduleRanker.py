@@ -16,7 +16,7 @@ class ScheduleRanker:
                 ranking += cls.rating
             if self.is_priority_subreq(cls):
                 ranking += 10
-            if cls.subjectArea == self.filters.subject:
+            if self.filters.subject and cls.subjectArea in self.filters.subject:
                 ranking += 10
 
         time_gap = self.calculate_time_gap_bonus(schedule)

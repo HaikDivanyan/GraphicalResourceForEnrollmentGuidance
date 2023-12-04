@@ -3,10 +3,11 @@ import re
 from .ScrapingDataStructures import *
 import pickle
 import time
+from pathlib import Path
 
 class DarsParser:
     def __init__(self):
-        with open("apps/GREG/scraping/majors.txt") as f:
+        with (Path(__file__).parent / "majors.txt").open("r") as f:
             self.majors = set(f.read().split(","))
     
     def parseDar(self, dar: str) -> tuple[list[str], list[Requirement]]:
@@ -58,14 +59,13 @@ class DarsParser:
 
        
 
-        with open("apps/GREG/scraping/registrar.pkl", "rb") as f:
+        with (Path(__file__).parent / "registrar.pkl").open("rb") as f:
             regData = pickle.load(f)
 
         allClasses = []
         toRemove = []
         for req in requirements:
-            if len(req.subrequirements) == 0:
-                toRemove.append(req)
+            subreqsToRemove = []
             for subreq in req.subrequirements:
                 trueClasses = []
                 for classes in subreq.classes:
@@ -87,8 +87,17 @@ class DarsParser:
                         if classes[0] + " " + classes[1] in regData and classes[0] + " " + classes[1] not in takenClasses:
                             trueClasses.append((classes[0] + " " + classes[1]))
 
-                subreq.classes = trueClasses
-                allClasses.extend(trueClasses)
+                if len(trueClasses) > 0:
+                    subreq.classes = trueClasses
+                    allClasses.extend(trueClasses)
+                else:
+                    subreqsToRemove.append(subreq)
+            
+            for subreq in subreqsToRemove:
+                req.subrequirements.remove(subreq)
+
+            if len(req.subrequirements) == 0:
+                toRemove.append(req)
 
         for req in toRemove:
             requirements.remove(req)

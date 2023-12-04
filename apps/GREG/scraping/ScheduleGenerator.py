@@ -1,8 +1,10 @@
+import json
 from itertools import combinations
 
-from ..models import ClassObj, Dars
+# from ..models import ClassObj, Dars
 from .DataController import DataController
 from .ScheduleRanker import ScheduleRanker
+from .ScrapingDataStructures import *
 from .Utils import ScheduleObject, UserFilters
 
 
@@ -60,7 +62,12 @@ class ScheduleGenerator:
             cls not in self.priority_schedule and
             cls not in ignore_classes and
             cls.id not in ignore_reqs):
-                filtered_classes.append(cls)
+                if self.filters.min_class_rating > 0:
+                    if cls.rating and cls.rating >= self.filters.min_class_rating:
+                        filtered_classes.append(cls)
+                else:
+                    filtered_classes.append(cls)
+
         
         self.filtered_classes = filtered_classes
 
@@ -109,31 +116,40 @@ class ScheduleGenerator:
     def sort_schedules(self):
         self.schedules.sort(key=lambda x: x.rating, reverse=True)
 
-def main():
-    d = DataController()
-    with open("scraping test scripts/dar.html") as f:
-        a = d.parseDar(f.read())
+def main(dars: Dars, filters: UserFilters):
+    # d = DataController()
+    # with open("scraping test scripts/dar.html") as f:
+    #     a = d.parseDar(f.read())
 
-    com_sci_elective_subreq = "TWENTY UNITS OF AT LEAST 5 COMPUTER SCIENCE ELECTIVESFROM COMPUTER SCIENCE 111 THROUGH 188"
+    print(filters)
 
-    # for req in a.requirements:
-    #     if req.name == "COMPUTER SCIENCE REQUIRED COURSES":
-    #         for subreq in req.subrequirements:
-    #             print(subreq.name)
-    #             if subreq.name == com_sci_elective_subreq:
-    #                 for cls in subreq.classes:
-    #                     print(cls)
-                        # if cls == "COM SCI 162":
-                        #     subreq.classes.remove(cls)
+    # com_sci_elective_subreq = "TWENTY UNITS OF AT LEAST 5 COMPUTER SCIENCE ELECTIVESFROM COMPUTER SCIENCE 111 THROUGH 188"
 
 
-    filters = UserFilters(earliest_start_time='7am', latest_end_time='6pm', min_num_classes=0, max_num_classes=4,
-                        min_units=1, max_units=15, priority_reqs=[com_sci_elective_subreq], ignore_reqs=[], preferred_days="MTWR")
+    # filters = UserFilters(earliest_start_time='7am', latest_end_time='6pm', min_num_classes=0, max_num_classes=4,
+    #                     min_units=1, max_units=15, priority_reqs=[com_sci_elective_subreq], ignore_reqs=[], preferred_days="MTWR")
 
-    generator = ScheduleGenerator(dars=a, user_filters=filters)
+    # for req in dars.requirements:
+    #     print("REQ")
+    #     print(req.name)
+    #     for subreq in req.subrequirements:
+    #         print("SUBREQ")
+    #         print(subreq.name)
+    #         for cls in subreq.classes:
+    #             print(cls)
+
+    # filters.max_num_classes = 3
+    generator = ScheduleGenerator(dars, filters)
     generator.generateSchedules()
     generator.sort_schedules()
-    for s in generator.schedules:
-        print(s)
-        print('\n')
-    print("Done!")
+
+
+    generator.schedules = generator.schedules[:5]
+
+    schedule_dicts = [schedule.to_dict() for schedule in generator.schedules]
+
+    # print(len(generator.schedules))
+    # print("DONE")
+
+    json_data = json.dumps(schedule_dicts)
+    return json_data

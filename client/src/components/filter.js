@@ -2,7 +2,7 @@ import './filter.css';
 import React, { useState } from 'react';
 import Select from 'react-select';
 
-export default function Filter() {
+export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,  sendRemainingRequirements, sendFileBack}) {
 
   //sending this to backend
   const [filters, setFilters] = useState({
@@ -12,28 +12,35 @@ export default function Filter() {
     preferredSubjects: [],
     earliestStartTime: '',
     latestEndTime: '',
-    preferredDays: [],
+    preferredDays: '',
     minClassRating: 0,
     //check if we want to change default
-    minUnits: 12,
+    minUnits: 2,
     maxUnits: 21,
     //check if we want to change default
-    minNumClasses: 3,
+    minNumClasses: 1,
     maxNumClasses: 5,
   });
 
+  
+
   const url = "http://127.0.0.1:8000/schedules/";
 
-  //send to backend
+  let formData = new FormData()
+  //send back dars data
+  if (sendFileBack) {
+  formData.append('file', sendFileBack[0])
+  }
+  const stringfiedFilters = JSON.stringify(filters);
+  formData.append('filters', stringfiedFilters);
+
   const handleSendFilters = () => {
     console.log('Filters:', filters);
+    console.log('Dars:', sendFileBack[0]);
 
     fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(filters),
+      body: formData,
     })
       .then(response => response.json())
       .then(data => {
@@ -74,7 +81,8 @@ export default function Filter() {
 
   const handlePreferredDaysChange = (selectedOptions) => {
     const selectedDays = selectedOptions.map((option) => option.value);
-    setFilters((prevFilters) => ({ ...prevFilters, preferredDays: selectedDays }));
+    const preferredDays = selectedDays.join('');
+    setFilters((prevFilters) => ({ ...prevFilters, preferredDays }));
   };
 
   const handleMinClassRatingChange = (e) => {
@@ -89,33 +97,38 @@ export default function Filter() {
     setFilters((prevFilters) => ({ ...prevFilters, maxNumClasses: parseInt(e.target.value, 10) || 0 }));
   };
 
-  const subjectOptions = [
-    { value: 'COM SCI', label: 'COM SCI' },
-    { value: 'option2', label: 'Option 2' },
-    { value: 'option3', label: 'Option 3' },
-    { value: 'option4', label: 'Option 4' },
-  ];
+  console.log("UNIQUE SUBJECTS")
+  let subjectOptions1 = [{ value: 'COM SCI', label: 'COM SCI' }];
+  let classesOptions1 = [{ value: 'COM SCI 152B', label: 'COM SCI 152B' }];
+  let requirementOptions1 = [{value: 'COMPUTER SCIENCE REQUIRED COURSES', label: 'COMPUTER SCIENCE REQUIRED COURSES'}];
   
-  const classesOptions = [
-    { value: 'COM SCI 152B', label: 'COM SCI 152B' },
-    { value: 'COM SCI 162', label: 'COM SCI 174A' },
-    { value: 'option3', label: 'Option 3' },
-    { value: 'option4', label: 'Option 4' },
-  ];
-
-  const requirementOptions = [
-    { value: 'COMPUTER SCIENCE REQUIRED COURSES', label: 'COMPUTER SCIENCE REQUIRED COURSES' },
-    { value: 'COM SCI 162', label: 'COM SCI 174A' },
-    { value: 'option3', label: 'Option 3' },
-    { value: 'option4', label: 'Option 4' },
-  ];
-
+  if (sendRemainingClasses) {
+    const uniqueSubjectNames = [...new Set(sendRemainingClasses.map(item => item.subjectArea))];
+    const uniqueClassNames = [...new Set(sendRemainingClasses.map(item => item.classId))];
+    console.log(uniqueSubjectNames)
+    if (uniqueSubjectNames && uniqueSubjectNames.length > 0) {
+      subjectOptions1 = uniqueSubjectNames.map(subject => ({ value: subject, label: subject }));
+    }
+    if (uniqueClassNames && uniqueClassNames.length > 0) {
+      classesOptions1 = uniqueClassNames.map(classes => ({ value: classes, label: classes }));
+    }
+  }
+  if (sendRemainingRequirements) {
+    const uniqueRequirementNames = [...new Set(sendRemainingRequirements.map(item => item.name))];
+    if (uniqueRequirementNames && uniqueRequirementNames.length > 0) {
+      requirementOptions1 = uniqueRequirementNames.map(requirement => ({ value: requirement, label: requirement}));
+    }
+  }
+  const subjectOptions = subjectOptions1 
+  const classesOptions = classesOptions1
+  const requirementOptions = requirementOptions1
+  
   const daysOfWeek = [
-    { value: 'Monday', label: 'Monday' },
-    { value: 'Tuesday', label: 'Tuesday' },
-    { value: 'Wednesday', label: 'Wednesday' },
-    { value: 'Thursday', label: 'Thursday' },
-    { value: 'Friday', label: 'Friday' }
+    { value: 'M', label: 'Monday' },
+    { value: 'T', label: 'Tuesday' },
+    { value: 'W', label: 'Wednesday' },
+    { value: 'R', label: 'Thursday' },
+    { value: 'F', label: 'Friday' }
   ];
 
     return (

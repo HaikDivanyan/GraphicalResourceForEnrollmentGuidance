@@ -2,11 +2,12 @@ import React from "react";
 import './upload.css';
 import {useDropzone} from 'react-dropzone'
 
-export default function Upload() {
+export default function Upload( {setRemainingClasses, setRemainingProfessors, setRemainingRequirements, setDarsFile}) {
    
     const url = "http://127.0.0.1:8000/dars/";
 
     const onDrop = (files) => {
+      setDarsFile(files)
       sendHTML(files)
     }
 
@@ -22,6 +23,12 @@ export default function Upload() {
       })
       const data = await response.json()
       console.log(data)
+      const updated = data
+      console.log(updated.classes)
+      setRemainingClasses(updated.classes)
+      setRemainingProfessors(updated.professors)
+      setRemainingRequirements(updated.requirements)
+
     }
     catch(e) {
       console.log(e)
