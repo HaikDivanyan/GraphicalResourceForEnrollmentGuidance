@@ -12,13 +12,13 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
     preferredSubjects: [],
     earliestStartTime: '',
     latestEndTime: '',
-    preferredDays: [],
+    preferredDays: '',
     minClassRating: 0,
     //check if we want to change default
-    minUnits: 12,
+    minUnits: 2,
     maxUnits: 21,
     //check if we want to change default
-    minNumClasses: 3,
+    minNumClasses: 1,
     maxNumClasses: 5,
   });
 
@@ -81,7 +81,8 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
 
   const handlePreferredDaysChange = (selectedOptions) => {
     const selectedDays = selectedOptions.map((option) => option.value);
-    setFilters((prevFilters) => ({ ...prevFilters, preferredDays: selectedDays }));
+    const preferredDays = selectedDays.join('');
+    setFilters((prevFilters) => ({ ...prevFilters, preferredDays }));
   };
 
   const handleMinClassRatingChange = (e) => {
@@ -123,11 +124,11 @@ export default function Filter({ sendRemainingClasses,  sendRemainingProfessors,
   const requirementOptions = requirementOptions1
   
   const daysOfWeek = [
-    { value: 'Monday', label: 'Monday' },
-    { value: 'Tuesday', label: 'Tuesday' },
-    { value: 'Wednesday', label: 'Wednesday' },
-    { value: 'Thursday', label: 'Thursday' },
-    { value: 'Friday', label: 'Friday' }
+    { value: 'M', label: 'Monday' },
+    { value: 'T', label: 'Tuesday' },
+    { value: 'W', label: 'Wednesday' },
+    { value: 'R', label: 'Thursday' },
+    { value: 'F', label: 'Friday' }
   ];
 
     return (
