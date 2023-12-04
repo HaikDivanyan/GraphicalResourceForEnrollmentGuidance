@@ -6,6 +6,7 @@ import Upload from './components/upload';
 import Remaining from './components/remaining';
 import Footer from './components/footer';
 import Filter from './components/filter';
+import Download from './components/download';
 import './App.css';
 
 function App() {
@@ -48,7 +49,8 @@ function App() {
         sendFileBack = {file}
       />
       <div className='BlueSection'></div>
-
+      <Download/>
+      <div className='BlueSection'></div>
       <Footer/>
     </div>
   )
