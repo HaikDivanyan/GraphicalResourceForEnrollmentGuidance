@@ -58,7 +58,7 @@ function App() {
         sendScheduleIn = {schedules}
       />
       <div className='BlueSection'></div>
-      <Download/>
+      {/* <Download/> */}
       <Footer/>
     </div>
   )

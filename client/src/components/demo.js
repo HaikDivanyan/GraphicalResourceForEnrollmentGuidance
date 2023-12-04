@@ -77,8 +77,8 @@ import canvasToSvg from "canvas-to-svg";
               endDate.setHours(endHour, endMinute);
   
               const categories = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'];
-              // console.log("COURSE", course,jk course.gradeDistributions);
-              console.log("COURSE", course);
+              // // console.log("COURSE", course,jk course.gradeDistributions);
+              // console.log("COURSE", course);
               const datasets = Object.entries(course.gradeDistributions).map(([key, values]) => ({
                   label: key,
                   data: values,
@@ -87,15 +87,13 @@ import canvasToSvg from "canvas-to-svg";
                   borderWidth: 1
               }));
   
-              // const element = document.getElementById('gradeHistogram')
-              // if (element) {
+             
+              // if (chartRef.current) {
+              //   console.log("theres a current")
               //   chartRef.current.destroy();
-              if (chartRef.current) {
-                console.log("theres a current")
-                chartRef.current.destroy();
-              }
-              // console.log("getElement")
-              console.log(document.getElementById('gradeHistogram'))
+              // }
+             
+              // console.log(document.getElementById('gradeHistogram'))
             
               //const ctx = document.getElementById('gradeHistogram').getContext('2d');
 
@@ -106,30 +104,30 @@ import canvasToSvg from "canvas-to-svg";
               var ctx = canvas.getContext('2d');
              
               // chartRef.current = new Chart(ctx, {
-              console.log("CHART DATA", categories, datasets);
-              new Chart(ctx, {
+              // console.log("CHART DATA", categories, datasets);
+              // new Chart(ctx, {
 
-                type: 'bar',
-                data: {
-                labels: categories,
-                datasets: datasets
-                },
-                options: {
-                scales: {
-                    x: {
-                        type: 'category',
-                        labels: categories
-                    },
-                    y: {
-                        beginAtZero: true,
-                        stepSize: 1
-                    }
-                }
-                }
-                });
-              ctx.fillStyle = 'red';
-              ctx.fillRect(50,50,300,100);
-              console.log("CONTEXT", ctx);
+              //   type: 'bar',
+              //   data: {
+              //   labels: categories,
+              //   datasets: datasets
+              //   },
+              //   options: {
+              //   scales: {
+              //       x: {
+              //           type: 'category',
+              //           labels: categories
+              //       },
+              //       y: {
+              //           beginAtZero: true,
+              //           stepSize: 1
+              //       }
+              //   }
+              //   }
+              //   });
+              // ctx.fillStyle = 'red';
+              // ctx.fillRect(50,50,300,100);
+              // console.log("CONTEXT", ctx);
               // }
              // setTimeout(() => {console.log(document.getElementById('gradeHistogram'))}, 1000)
             //  const mySerializedSVG = ctx.getSerializedSvg();
@@ -139,10 +137,10 @@ import canvasToSvg from "canvas-to-svg";
              image.src = canvas.toDataURL();
              const imageString = new XMLSerializer().serializeToString(image);
              console.log("IMAGE", imageString);
-             if (datasets.length > 0) {
-              console.log("drawing hist")
-              document.body.appendChild(canvas);
-             }
+            //  if (datasets.length > 0) {
+            //   console.log("drawing hist")
+            //   document.body.appendChild(canvas);
+            //  }
             //  canvas.style.position = 'absolute';
             //  canvas.style.top = '0';
             //  canvas.style.left = '0';
@@ -156,7 +154,7 @@ import canvasToSvg from "canvas-to-svg";
              svgElement.setAttribute("height", "300");
 
              const height = 100;
-             const width = 100;
+             const width = 300;
              let maxFreq = 0
              datasets.forEach((dataset) => {
               console.log("DATASET", dataset);
@@ -167,17 +165,18 @@ import canvasToSvg from "canvas-to-svg";
 
              console.log("MAX FREQ", maxFreq);
              const svg = d3.select(svgElement);
-             const xScale = d3.scaleBand().domain(categories).range([0, width]).padding(0.1);
+             const xScale = d3.scaleBand().domain(categories).range([0, width]).paddingOuter(.8); //0.1
              const yScale = d3.scaleLinear().domain([0, Math.ceil(maxFreq*1.1)]).range([height,0]);
              console.log("DATA", datasets[0].data)
              svg.selectAll(".bar")
                 .data(datasets[0].data) // convert this to averages or something
                 .enter().append("rect")
                 .attr("class", "bar")
-                .attr("x", (d, i)=> xScale(i))
+                .attr("x", (d, i)=> xScale(categories[i]))
                 .attr("y", d=> 100 - d)
                 .attr('width', xScale.bandwidth())
                 .attr("height", d=> d)
+                .attr("fill", "red")
               svg.append("g")
                 .attr("transform", "translate(0," + height +")")
                 .call(d3.axisBottom(xScale));
@@ -252,7 +251,7 @@ import canvasToSvg from "canvas-to-svg";
                     </div>
                     <div >
                         BruinWalk:
-                        <canvas id="gradeHistogram" width="10" height="5"></canvas>
+                        {/* <canvas id="gradeHistogram" width="10" height="5"></canvas> */}
             
                     </div>
                     <div>
