@@ -1,5 +1,4 @@
 import './download.css';
-<<<<<<< HEAD
 import React, { useEffect, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import Chart from "chart.js/auto";
@@ -8,13 +7,6 @@ export default function Download() {
   
     const chartRef = useRef(null);
 
-=======
-import React, { useState } from 'react';
-import html2canvas from 'html2canvas';
-
-export default function Download() {
-  
->>>>>>> e58ac87 (Download rough with main)
     const handleCaptureScreenshot = () => {
     const element = document.getElementById('capture'); // Replace 'capture' with the ID of the element you want to capture
 
@@ -36,7 +28,6 @@ export default function Download() {
     });
   };
 
-<<<<<<< HEAD
   useEffect(() => {
     const gradeDistributions = {
         "('SARRAFZADEH', '21F')": [5, 5, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -85,8 +76,6 @@ export default function Download() {
     });
     }, []);
 
-=======
->>>>>>> e58ac87 (Download rough with main)
   return (
     <div>
       <div className="UploadSection" id="capture">
@@ -99,12 +88,9 @@ export default function Download() {
       <div className="ButtonContainer">
         <button className="generateButton" onClick={handleCaptureScreenshot}>Download Screenshot</button>
       </div>
-<<<<<<< HEAD
       <div className="Canvas">
       <canvas id="gradeHistogram" width="10" height="5"></canvas>
       </div>
-=======
->>>>>>> e58ac87 (Download rough with main)
     </div>
   );
 }
