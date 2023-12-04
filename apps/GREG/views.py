@@ -100,7 +100,7 @@ def filter_parser(data):
         earliest_start_time=data.get('earliestStartTime') if data.get('earliestStartTime') != '' else '6am',
         latest_end_time=data.get('latestEndTime') if data.get('latestEndTime') != '' else '11pm',
         preferred_days=data.get('preferredDays') if data.get('preferredDays', None) != "" else "MTWRF" ,
-        min_class_rating=float(data.get('minClassRating', 0)) if data.get('minClassRating') != '' else 0,
+        min_class_rating=float(data.get('minClassRating')),
         max_units=int(data.get('maxUnits', 12)) if data.get('maxUnits') != '' else 12,
         min_units=int(data.get('minUnits', 2)) if data.get('minUnits') != '' else 2,
         min_num_classes=int(data.get('minNumClasses', 1)) if data.get('minNumClasses') != '' else 1,
