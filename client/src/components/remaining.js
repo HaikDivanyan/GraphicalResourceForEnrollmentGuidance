@@ -16,14 +16,14 @@ export default function Remaining({sendRemainingClasses, sendRemainingProfessors
             {console.log(sendRemainingClasses)}
               {console.log(sendRemainingRequirements)}
               {sendRemainingRequirements && sendRemainingRequirements.map((course, index) => (
-                  <div key={index}>
-                    {course.name}
-                    {course.subrequirements.map((subreq, subIndex) => (
-                        <li key={subIndex}>
-                          {subreq.classes}
-                          </li>
+                  <div key={index} className="CourseItem">
+                    <h3>{course.name}</h3>
+                    <ul>
+                      {course.subrequirements.map((subreq, subIndex) => (
+                        <li key={subIndex}>{subreq.classes}</li>
                       ))}
-                  </div>
+                    </ul>
+                </div>
               ))}
                 {/* course 1
                 <br></br>
