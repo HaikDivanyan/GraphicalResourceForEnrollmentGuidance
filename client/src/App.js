@@ -7,11 +7,19 @@ import Remaining from './components/remaining';
 import Footer from './components/footer';
 import Filter from './components/filter';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Download from './components/download';
 =======
 import Schedule from './components/schedule';
 import Demo from './components/demo';
 >>>>>>> dcf004b (DISPLAY SCHEDULES BASED ON SAMPLE DATA)
+=======
+import Schedule from './components/schedule';
+import Demo from './components/demo';
+=======
+import Download from './components/download';
+>>>>>>> 28eecf5 (Download rough draft)
+>>>>>>> e58ac87 (Download rough with main)
 import './App.css';
 
 function App() {
@@ -54,10 +62,18 @@ function App() {
         sendFileBack = {file}
       />
       <div className='BlueSection'></div>
+<<<<<<< HEAD
       <Download/>
       <div className='BlueSection'></div>
+=======
+<<<<<<< HEAD
+>>>>>>> e58ac87 (Download rough with main)
       <Schedule/>
       <Demo/>
+=======
+      <Download/>
+      <div className='BlueSection'></div>
+>>>>>>> 28eecf5 (Download rough draft)
       <Footer/>
     </div>
   )
