@@ -1,28 +1,25 @@
-# Repository Template
+# Graphical Resource for Enrollment Guidance (GREG)
 
-[![Build Status](https://app.travis-ci.com/melaasar/cs130-template.svg?branch=master)](https://app.travis-ci.com/github/melaasar/cs130-template)
-[![Release](https://img.shields.io/github/v/release/melaasar/cs130-template?label=release)](https://github.com/melaasar/cs130-template/releases/latest)
+"For a schedule that's prime, go with GREG every time."
+Schedule Generator for UCLA students. Upload your dars and get your perfect schedule
 
-This repo serves as a template for a repository that follows the Scrum process. The following information describes how the native features/workflows of Github can be customized to work in a scrum development process.
-## Django Cmmand reference
+## Set Up
 ```
     pip3 install virtualenv
     python3 -m venv env
     <!-- instead of the next line, you may have to go into env folder and run 'source bin/activate' -->
     source .venv/bin/activate 
-    python -m pip install django
-    python manage.py runserver - starting the development server
-    pip install djangorestframework
-    pip install django_cors_headers
-    pip install BeautifulSoup4
-    pip install selenium
-    pip install numpy
-    pip install webdriver_manager 
+    ./setup.sh - run the shell script in python virtual environment 
 
     might have to:
+    python manage.py makemigrations
     python manage.py migrate
-    and then something makemigrations
+    python manage.py runserver - starting the development server
 ```
+# Repository Template
+
+[![Build Status](https://app.travis-ci.com/melaasar/cs130-template.svg?branch=master)](https://app.travis-ci.com/github/melaasar/cs130-template)
+[![Release](https://img.shields.io/github/v/release/melaasar/cs130-template?label=release)](https://github.com/melaasar/cs130-template/releases/latest)
 
 ## Issues
 
