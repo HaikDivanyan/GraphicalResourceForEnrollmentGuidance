@@ -8,6 +8,7 @@ import {
   AppointmentForm,
   AppointmentTooltip,
 } from '@devexpress/dx-react-scheduler-material-ui';
+import './demo.css';
 
 // import { schedules } from './Demo/scheduleData';
 import { schedules } from './Demo/data';
@@ -151,15 +152,37 @@ const generateAppointments = (classes) => {
         currentDate: '2023-12-03',
         startDayHour: 8,
         endDayHour: 22,
+        currentScheduleIndex: 0,
       };
     }
+
+    handleNextSchedule = () => {
+      this.setState((prevState) => ({
+        currentScheduleIndex: (prevState.currentScheduleIndex + 1) % schedules.length,
+      }));
+    };
+  
+    handlePrevSchedule = () => {
+      this.setState((prevState) => ({
+        currentScheduleIndex:
+          (prevState.currentScheduleIndex - 1 + schedules.length) % schedules.length,
+      }));
+    };
   
     render() {
+      const { currentScheduleIndex } = this.state;
+      const currentSchedule = schedules[currentScheduleIndex];
+  
       return (
         <div>
-          {schedules.map((schedule, index) => (
-            <Schedule key={index} schedule={schedule} />
-          ))}
+          <Schedule schedule={currentSchedule} />
+          <div className="BoxContainer" style={{ marginTop: '15px' }}>
+            <button className="prevSchedule" onClick={this.handlePrevSchedule}>Previous Schedule</button>
+            <button className="nextSchedule" onClick={this.handleNextSchedule}>Next Schedule</button>
+          </div>
+          <div className="BoxContainer">
+            <div className='scheduleIndex'>Showing Schedule {currentScheduleIndex + 1} of {schedules.length}</div>
+          </div>
         </div>
       );
     }
