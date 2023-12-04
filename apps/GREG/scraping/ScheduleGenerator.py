@@ -62,7 +62,12 @@ class ScheduleGenerator:
             cls not in self.priority_schedule and
             cls not in ignore_classes and
             cls.id not in ignore_reqs):
-                filtered_classes.append(cls)
+                if self.filters.min_class_rating > 0:
+                    if cls.rating and cls.rating >= self.filters.min_class_rating:
+                        filtered_classes.append(cls)
+                else:
+                    filtered_classes.append(cls)
+
         
         self.filtered_classes = filtered_classes
 
