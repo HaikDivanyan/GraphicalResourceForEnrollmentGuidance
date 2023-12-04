@@ -1,6 +1,7 @@
 .carousel-container {
     display: flex;
-    overflow: hidden;
+    overflow: visible; 
+    /* hidden */
   }
   
   .carousel {

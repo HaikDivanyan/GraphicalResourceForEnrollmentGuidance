@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as d3 from 'd3';
 import Paper from '@mui/material/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
+import html2pdf from 'html2pdf.js';
 import {
   Scheduler,
   WeekView,
@@ -14,6 +15,7 @@ import { useRef, useEffect, useState } from 'react';
 import Chart from "chart.js/auto";
 import html2canvas from 'html2canvas';
 import canvasToSvg from "canvas-to-svg";
+
 
   const Schedule = ({ schedule }) => {
 
@@ -125,22 +127,33 @@ import canvasToSvg from "canvas-to-svg";
              const xScale = d3.scaleBand().domain(categories).range([0, width]).paddingOuter(.9); //0.1
              const yScale = d3.scaleLinear().domain([0, Math.ceil(maxFreq*1.1)]).range([height,0]);
              yScale.domain([0, Math.ceil(maxFreq * 1.1)]);
+             // Step 1: Calculate the total sum of the data values
+            const totalSum = datasets[0].data.reduce((sum, value) => sum + value, 0);
+
+            // Step 2: Normalize the data
+            const normalizedData = datasets[0].data.map(value => (value / totalSum )* 100);
+            console.log("NDATA", normalizedData)
              console.log("DATA", datasets[0].data)
+              // Step 3: Draw the bars on the canvas
+    normalizedData.forEach((d, i) => {
+      ctx.fillStyle = 'red';
+      ctx.fillRect(xScale(categories[i]), height - yScale(d), xScale.bandwidth(), yScale(d));
+  });
              svg.selectAll(".bar")
-                .data(datasets[0].data) // convert this to averages or something
+                .data(normalizedData) // convert this to averages or something
                 .enter().append("rect")
                 .attr("class", "bar")
                 .attr("x", (d, i)=> xScale(categories[i]))
                 .attr("y", d=> 100 - d)
                 .attr('width', xScale.bandwidth())
                 .attr("height", d=> d)
-                .attr("fill", "red")
+                .attr("fill", "steelblue")
               svg.append("g")
                 .attr("transform", "translate(0," + height +")")
                 .call(d3.axisBottom(xScale));
               svg.append("g")
                 //.attr("transform", "translate(0," + 10 +")")
-                .call(d3.axisLeft(yScale).ticks(2));
+                .call(d3.axisLeft(yScale).ticks(6).tickFormat(d3.format('.0%')));
               console.log(svgElement, new XMLSerializer().serializeToString(svgElement));
             }) 
               const appointment = {
@@ -173,8 +186,8 @@ import canvasToSvg from "canvas-to-svg";
     }, [schedule]);
     
     return (
-      <Paper>
-        <Scheduler data={data} height={660}>
+      <Paper >
+        <Scheduler data={data} height={1200}>
           <ViewState currentDate={schedule.currentDate} />
           <WeekView startDayHour={8} endDayHour={22} />
           <div onClick={()=>{console.log("TEST")}}>
@@ -281,6 +294,25 @@ import canvasToSvg from "canvas-to-svg";
         document.body.removeChild(downloadLink);
       });
     };
+   
+  
+      const handleDownload = () => {
+        //const contentRef = useRef(null);
+       // const content = contentRef.current;
+        const content  = document.getElementById('capture');
+        if (content) {
+          const pdfOptions = {
+            margin: 10,
+            filename: 'document.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          };
+    
+          html2pdf().from(content).set(pdfOptions).save();
+        }
+      };
+    
     
       const { currentScheduleIndex } = this.state;
       let currentSchedule1 = '';
@@ -298,10 +330,10 @@ import canvasToSvg from "canvas-to-svg";
           {this.props.sendScheduleIn ? (
           <>
           <Schedule schedule={currentSchedule} />
-          <div className="BoxContainer" style={{ marginTop: '15px' }}>
+          <div className="BoxContainer" style={{ marginTop: '15px'}}>
             <button className="prevSchedule" onClick={this.handlePrevSchedule}>Previous Schedule</button>
             <button className="nextSchedule" onClick={this.handleNextSchedule}>Next Schedule</button>
-            <button className="downloadSchedule" onClick={handleCaptureScreenshot}>Save Schedule</button>
+            <button className="downloadSchedule" onClick={handleDownload}>Save Schedule</button>
           </div>
           <div className="BoxContainer">
             <div className='scheduleIndex'>Showing Schedule {currentScheduleIndex + 1} of {this.props.sendScheduleIn.length}</div>
