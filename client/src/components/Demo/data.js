@@ -303,14 +303,14 @@ export const schedules = [
          "name":"188 - Special Courses in Computer Science: Deep Learning for Computer Vision"
       }
    ],
-   "rating":43.25
+   "rating": 43.25
 },
 {
    "classes":[
       {
          "id":"COM SCI 152B",
          "units":4,
-         "subjectArea":"COM SCI",
+         "subjectArea":"POLI SCI",
          "rating":3.5,
          "gradeDistributions":{
             "('SARRAFZADEH', '21F')":[
