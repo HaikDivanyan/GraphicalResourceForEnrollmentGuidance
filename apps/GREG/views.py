@@ -15,16 +15,16 @@ from .scraping.Utils import UserFilters as PythonUserFilters
 from .serlializer import *
 
 dataControler = DataController()
-@api_view(['GET', 'POST'])
-def haik(request):
-  d = DataController()
-  with open("scraping test scripts/dar.html") as f:
-      a = d.parseDar(f.read())
-  serialized_schedules = main(a, PythonUserFilters())
-  return Response("meow")
 
 @api_view(['GET', 'POST'])
 def schedules_api(request):
+  """
+  shedule_api takes a POST request from frontend. Frontend sends a Dars.html file and 
+    userfilters and in return it recieves top generated schedule.
+
+  :param request: the request sent from frontend
+  :return Response: a serliazed data 
+  """
   if request.method == "POST":
     dars = dataControler.parseDar(request.FILES["file"].read())
     filterFile = request.POST.get('filters')
@@ -35,6 +35,13 @@ def schedules_api(request):
 
 @api_view(['GET', 'POST'])
 def upload_file(request):
+  """
+  upload_file takes a POST request from frontend. Frontend sends a Dars.html file
+    and in return it recieves top generated schedule.
+
+  :param request: the request sent from frontend
+  :return Response: a serliazed data 
+  """
   if request.method == "POST":
     dars = darspars(request.FILES["file"])
     serializer = DarsSerializer(dars)
@@ -71,26 +78,14 @@ def darspars(f) -> Dars:
        su = SubRequirement(name = sub.name, units = sub.units , count=sub.count, classes = sub.classes, subrequirements = r)
        su.save()
   return darsObj
- 
-def filter_parser(data):
-    print(data)
-    filter = PythonUserFilters(
-        priority_classes=data.get('priorityClasses', None), 
-        ignore_classes=data.get('ignoreClasses', None), 
-        priority_reqs=data.get('priorityRequirements', None),
-        subject=data.get('preferredSubjects', None),
-        earliest_start_time=data.get('earliestStartTime', '6am'),
-        latest_end_time=data.get('latestEndTime', '11pm'),
-        preferred_days=data.get('preferredDays', "MTWRF"),
-        min_class_rating=data.get('minClassRating', 0),
-        max_units=data.get('maxUnits', 12),
-        min_units=data.get('minUnits', 2),
-        min_num_classes=data.get('minNumClasses', 1),
-        max_num_classes=data.get('maxNumClasses', 4)
-    )
-    return filter  
 
 def filter_parser(data):
+    """
+    filter_parser takes in JSON string of user's chosen filters and integrates it with middleware classes
+
+    :param data: JSON string
+    :return PythonUserFilters
+    """
     filter = PythonUserFilters(
         priority_classes=data.get('priorityClasses') if data.get('priorityClasses', None) is not None else None,
         ignore_classes=data.get('ignoreClasses') if data.get('ignoreClasses', None) is not None else None,
