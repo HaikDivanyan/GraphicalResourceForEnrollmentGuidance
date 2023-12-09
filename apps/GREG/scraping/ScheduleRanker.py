@@ -1,3 +1,7 @@
+"""
+This module provides the ScheduleRanker class used for ranking generated schedules
+based on various criteria.
+"""
 from datetime import timedelta
 
 from ..models import ClassObj, Dars
@@ -5,11 +9,26 @@ from .Utils import ScheduleObject, UserFilters, format_time_str
 
 
 class ScheduleRanker:
+    """
+    ScheduleRanker assigns a ranking to schedules based on their fit with user preferences.
+    """
     def __init__(self, dars: Dars, filters: UserFilters):
+        """
+        Initializes the ScheduleRanker with DARS data and user-specified filters.
+        
+        :param dars: An instance of Dars containing class and requirement information.
+        :param filters: An instance of UserFilters containing user preferences.
+        """
         self.dars = dars
         self.filters = filters
 
     def rank(self, schedule):
+        """
+        Ranks a given schedule based on predefined criteria.
+        
+        :param schedule: A list of ClassObj representing a schedule.
+        :return: A numerical ranking score for the schedule.
+        """
         ranking = 0
         for cls in schedule:
             if cls.rating:
@@ -28,6 +47,12 @@ class ScheduleRanker:
         return ranking
 
     def calculate_time_gap_bonus(self, schedule):
+        """
+        Calculates a time gap bonus for a schedule, rewarding schedules with minimal time gaps between classes.
+        
+        :param schedule: A list of ClassObj representing a schedule.
+        :return: A numerical bonus score based on time gaps.
+        """
         if len(schedule) == 1:
             return 0
         
@@ -57,6 +82,12 @@ class ScheduleRanker:
         return total_bonus
 
     def calculate_class_consolidation_bonus(self, schedule: ScheduleObject):
+        """
+        Calculates a class consolidation bonus for a schedule, rewarding schedules that consolidate classes into fewer days.
+        
+        :param schedule: A ScheduleObject representing a schedule.
+        :return: A numerical bonus score for class consolidation.
+        """
         days_with_classes = set()
         for cls in schedule:
             for lecture in cls.lectures:
@@ -71,6 +102,12 @@ class ScheduleRanker:
         return bonus
 
     def is_priority_subreq(self, cls: ClassObj):
+        """
+        Determines if a class is part of a priority subrequirement.
+        
+        :param cls: A ClassObj to check against priority subrequirements.
+        :return: Boolean indicating if the class is a priority subrequirement.
+        """
         if not self.filters.priority_reqs:
             return False
         for req in self.dars.requirements:
