@@ -1,4 +1,5 @@
 import pickle
+from types import NoneType
 from .ScrapingDataStructures import ClassObject
 from .ScrapingDataStructures import Professor
 import urllib.request
@@ -16,12 +17,18 @@ class BruinwalkController:
         with (Path(__file__).parent / "bruinwalk.pkl").open("rb") as f:
             self.classData = pickle.load(f)
 
+        if __debug__:
+            assert type(self.classData) == dict
+
     def getClassRating(self, registrarClass: ClassObject) -> float:
         """
         Gets the rating for a class. If the data is in the cache, simply return it. Otherwise, scrape and parse it from bruiwnalk.
         :param registrarClass: Class object for which to get the rating.
         :return: the float rating or None
         """
+        if __debug__:
+            assert type(registrarClass) == ClassObject
+
         if registrarClass.id in self.classData:
             return self.classData[registrarClass.id]
         
@@ -31,6 +38,9 @@ class BruinwalkController:
             rating = float(html[i:i+3])
         except:
             rating = None
+
+        if __debug__:
+            assert type(rating) == float or type(rating) == NoneType
 
         self.classData[registrarClass.id] = rating
         with (Path(__file__).parent / "bruinwalk.pkl").open("wb") as f:
@@ -44,6 +54,10 @@ class BruinwalkController:
         :param professor: professor object for which to get the rating.
         :return: the float rating or None
         """
+
+        if __debug__:
+            assert type(professor) == Professor
+
         if professor.name in self.classData:
             return self.classData[professor.name]
         
@@ -54,6 +68,9 @@ class BruinwalkController:
             rating = float(html[i:i+3])
         except Exception as e:
             rating = None
+
+        if __debug__:
+            assert type(rating) == float or type(rating) == NoneType
 
         self.classData[professor.name] = rating
 

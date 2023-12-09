@@ -15,6 +15,9 @@ class DarsParser:
         """
         with (Path(__file__).parent / "majors.txt").open("r") as f:
             self.majors = set(f.read().split(","))
+
+        if __debug__:
+            assert len(self.majors) > 0
     
     def parseDar(self, dar: str) -> tuple[list[str], list[Requirement]]:
         """
@@ -22,6 +25,11 @@ class DarsParser:
         :param dar: The html string to parse
         :return: tuple[list[str], list[Requirement]]: list of classes and list requirements
         """
+
+        if __debug__:
+            assert type(dar) == type("")
+            assert len(dar) > 0
+
         dar = BeautifulSoup(dar, features='html.parser')
         requirements = []
         takenClasses = []
@@ -73,6 +81,10 @@ class DarsParser:
         with (Path(__file__).parent / "registrar.pkl").open("rb") as f:
             regData = pickle.load(f)
 
+        if __debug__:
+            assert type(regData) == dict
+            assert len(regData) > 0
+
         allClasses = []
         toRemove = []
         for req in requirements:
@@ -112,5 +124,11 @@ class DarsParser:
 
         for req in toRemove:
             requirements.remove(req)
+
+        if __debug__:
+            for req in requirements:
+                for subreq in req.subrequirements:
+                    assert len(subreq.classes) > 0
+                assert len(req.subrequirements) > 0
 
         return (list(set(allClasses)), requirements)
