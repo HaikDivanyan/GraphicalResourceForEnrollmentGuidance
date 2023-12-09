@@ -23,6 +23,12 @@ class HotSeatController:
             self.hotseatData = pickle.load(f)
     
     def get_chart_element(self,current_instructor,driver):
+        """ Gets the graph for enrollment progress 
+        
+        :param current_instructor: Selenium WebElement for current instructor
+        :param driver: Selenium WebDriver
+        :return: returns graph's html
+        """
         dropdown = driver.find_element(By.CSS_SELECTOR,".mt-2.lg\\:flex.lg\\:space-x-4")
         flex = dropdown.find_element(By.CLASS_NAME,"flex-1")
         try:
@@ -32,11 +38,19 @@ class HotSeatController:
         enrollment_progress = enrollement_card.find_element(By.ID,"enrollment-progress")
         chart = enrollment_progress.find_element(By.CLASS_NAME,"Chart")
         chart_outer_html = chart.get_attribute('outerHTML')
-        # with open('chart_complete_html.html', 'w', encoding='utf-8') as file:
-        #     file.write(chart_outer_html)
+
+        # DEBUG
+        if __debug__:
+            assert isinstance(chart_outer_html,str)
         return chart_outer_html
     
     def if_match_instructor_names(self,prof_name,current_instructor_name_element):
+        """ Check if professor name and current instructor name matches
+        :param prof_name: Professor name
+        :param current_instructor_name_element: name of current instructor from hotseat
+        :return: boolean true or false
+        
+         """
         current_instructor_name = current_instructor_name_element.text.splitlines()[0]
         if prof_name == current_instructor_name:
             return True
@@ -55,6 +69,12 @@ class HotSeatController:
         
         
     def getClassGraph(self,class_id,prof_name):
+        """ Gets class graph given the class ID and professor name
+        :param class_id: class id
+        :param prof_name: professor name
+        :return: graph
+        
+         """
         if (class_id, prof_name) in self.hotseatData:
             return self.hotseatData[(class_id, prof_name)]
 
@@ -106,14 +126,7 @@ class HotSeatController:
             
             instructor_text_element = wait.until(EC.visibility_of_element_located((By.XPATH, f"//a[contains(@class, 'course-instructor-tab') and contains(@class, 'tab-selected') and contains(text(), '{prof_name_from_hotseat}')]")))
 
-            # Get the text and compare
             instructor_text = instructor_text_element.text.strip().splitlines()[0]
-            # print(f"instructor_text: {instructor_text}")
-            # print(f"prof name from hotseat: {prof_name_from_hotseat}")
-            # if instructor_text == prof_name_from_hotseat:
-            #     print("Found the instructor with the correct name.")
-            # else:
-            #     print("The instructor name does not match.")
 
             graph = self.get_chart_element(cur_instructor_element,driver)
             
@@ -121,7 +134,9 @@ class HotSeatController:
 
             with (Path(__file__).parent / "hotseat.pkl").open("wb") as f:
                 pickle.dump(self.hotseatData, f)
-
+            # DEBUG
+            if __debug__:
+                assert isinstance(graph,str)
             return graph
         
         except TimeoutException:

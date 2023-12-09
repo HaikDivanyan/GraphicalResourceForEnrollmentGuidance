@@ -6,11 +6,22 @@ import time
 from pathlib import Path
 
 class DarsParser:
+    """
+    Handles the parsing of Dars html objects into a list of classes, professors, and requirements.
+    """
     def __init__(self):
+        """
+        Initializes the DarsParser object by loading a list of provided majors.
+        """
         with (Path(__file__).parent / "majors.txt").open("r") as f:
             self.majors = set(f.read().split(","))
     
     def parseDar(self, dar: str) -> tuple[list[str], list[Requirement]]:
+        """
+        The function that parses a Dar string and returns a list of classes, professors, and requirements.
+        :param dar: The html string to parse
+        :return: tuple[list[str], list[Requirement]]: list of classes and list requirements
+        """
         dar = BeautifulSoup(dar, features='html.parser')
         requirements = []
         takenClasses = []
