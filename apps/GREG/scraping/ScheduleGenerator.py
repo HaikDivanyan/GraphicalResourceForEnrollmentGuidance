@@ -1,12 +1,12 @@
 import json
 from itertools import combinations
 
-# from ..models import ClassObj, Dars
 from .DataController import DataController
 from .ScheduleRanker import ScheduleRanker
 from .ScrapingDataStructures import *
 from .Utils import ScheduleObject, UserFilters
 
+DEBUG = False
 
 class ScheduleGenerator:
     def __init__(self, dars: Dars, user_filters: UserFilters):
@@ -118,50 +118,46 @@ class ScheduleGenerator:
         self.schedules.sort(key=lambda x: x.rating, reverse=True)
 
 def main(dars: Dars, filters: UserFilters):
-    # d = DataController()
-    # with open("scraping test scripts/dar.html") as f:
-    #     a = d.parseDar(f.read())
-
-    print(filters)
-
-    # com_sci_elective_subreq = "TWENTY UNITS OF AT LEAST 5 COMPUTER SCIENCE ELECTIVESFROM COMPUTER SCIENCE 111 THROUGH 188"
-
-
-    # filters = UserFilters(earliest_start_time='7am', latest_end_time='6pm', min_num_classes=0, max_num_classes=4,
-    #                     min_units=1, max_units=15, priority_reqs=[com_sci_elective_subreq], ignore_reqs=[], preferred_days="MTWR")
-
-    # for req in dars.requirements:
-    #     print("REQ")
-    #     print(req.name)
-    #     for subreq in req.subrequirements:
-    #         print("SUBREQ")
-    #         print(subreq.name)
-    #         for cls in subreq.classes:
-    #             print(cls)
-
-    # filters.max_num_classes = 3
-    print(filters)
-    if filters.earliest_start_time[-2:] != "am":
-        filters.earliest_start_time += "am" 
-    if filters.latest_end_time[-2:] != "pm":
-        filters.latest_end_time += "pm"
-
     filters.earliest_start_time = "9am"
     filters.latest_end_time = "8pm"
     generator = ScheduleGenerator(dars, filters)
     generator.generateSchedules()
     generator.sort_schedules()
-    generator = ScheduleGenerator(dars, filters)
-    generator.generateSchedules()
-    generator.sort_schedules()
-
-
-    generator.schedules = generator.schedules[:5]
 
     schedule_dicts = [schedule.to_dict() for schedule in generator.schedules]
 
-    # print(len(generator.schedules))
-    # print("DONE")
+    if DEBUG:
+        run_tests(schedule_dicts, filters)
 
     json_data = json.dumps(schedule_dicts)
     return json_data
+
+def run_tests(schedule_dicts, filters):
+    # write tests to ensure that the schedules are sorted correctly
+    for i in range(len(schedule_dicts) - 1):
+        assert schedule_dicts[i]['rating'] >= schedule_dicts[i+1]['rating']
+    
+    # write tests to ensure that the schedules do not have time conflicts
+    for schedule in schedule_dicts:
+        for cls in schedule['classes']:
+            for lecture in cls['lectures']:
+                for time in lecture['times']:
+                    assert time['start_time'] < time['end_time']
+                    assert time['start_time'] >= filters.earliest_start_time
+                    assert time['end_time'] <= filters.latest_end_time
+                    assert time['days'] in filters.preferred_days
+
+    # write tests to ensure if a user specifies a priority class, then that class is in the schedule
+    for schedule in schedule_dicts:
+        if filters.priority_classes:
+            priority_classes = [cls for cls in schedule['classes'] if cls['id'] in filters.priority_classes]
+            assert priority_classes
+
+    # write tests to ensure that the schedule has the correct number of classes
+    for schedule in schedule_dicts:
+        assert filters.min_num_classes <= len(schedule['classes']) <= filters.max_num_classes
+    
+    # write tests to ensure that the schedule has the correct number of units
+    for schedule in schedule_dicts:
+        total_units = sum(cls['units'] for cls in schedule['classes'])
+        assert filters.min_units <= total_units <= filters.max_units
