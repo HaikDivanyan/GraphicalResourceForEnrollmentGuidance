@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+
+<head>
+    <title>Python: module apps.GREG.scraping.ScheduleGenerator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body bgcolor="#f0f0f8">
+
+    <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+        <tr bgcolor="#7799ee">
+            <td valign=bottom>&nbsp;<br>
+                <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="apps.html">
+                                    <font color="#ffffff">apps</font>
+                                </a>.<a href="apps.GREG.html">
+                                    <font color="#ffffff">GREG</font>
+                                </a>.<a href="apps.GREG.scraping.html">
+                                    <font color="#ffffff">scraping</font>
+                                </a>.ScheduleGenerator</strong></big></big></font>
+            </td>
+            <td align=right valign=bottom>
+                <font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a
+                        href="file:/Users/haikdivanyan/School/CS/130/GraphicalResourceForEnrollmentGuidance/apps/GREG/scraping/ScheduleGenerator.py">/Users/haikdivanyan/School/CS/130/GraphicalResourceForEnrollmentGuidance/apps/GREG/scraping/ScheduleGenerator.py</a>
+                </font>
+            </td>
+        </tr>
+    </table>
+    <p></p>
+    <p>
+    <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+        <tr bgcolor="#aa55cc">
+            <td colspan=3 valign=bottom>&nbsp;<br>
+                <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font>
+            </td>
+        </tr>
+
+        <tr>
+            <td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+            <td>&nbsp;</td>
+            <td width="100%">
+                <table width="100%" summary="list">
+                    <tr>
+                        <td width="25%" valign=top><a href="numpy.html">numpy</a><br>
+                        </td>
+                        <td width="25%" valign=top></td>
+                        <td width="25%" valign=top></td>
+                        <td width="25%" valign=top></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <p>
+    <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+        <tr bgcolor="#ee77aa">
+            <td colspan=3 valign=bottom>&nbsp;<br>
+                <font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font>
+            </td>
+        </tr>
+
+        <tr>
+            <td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+            <td>&nbsp;</td>
+            <td width="100%">
+                <dl>
+                    <dt>
+                        <font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+                        </font>
+                    </dt>
+                    <dd>
+                        <dl>
+                            <dt>
+                                <font face="helvetica, arial"><a
+                                        href="apps.GREG.scraping.ScheduleGenerator.html#ScheduleGenerator">ScheduleGenerator</a>
+                                </font>
+                            </dt>
+                        </dl>
+                    </dd>
+                </dl>
+                <p>
+                <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+                    <tr bgcolor="#ffc8d8">
+                        <td colspan=3 valign=bottom>&nbsp;<br>
+                            <font color="#000000" face="helvetica, arial"><a name="ScheduleGenerator">class
+                                    <strong>ScheduleGenerator</strong></a>(<a
+                                    href="builtins.html#object">builtins.object</a>)</font>
+                        </td>
+                    </tr>
+
+                    <tr bgcolor="#ffc8d8">
+                        <td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+                        <td colspan=2><tt><a
+                                    href="#ScheduleGenerator">ScheduleGenerator</a>(dars:&nbsp;apps.GREG.scraping.ScrapingDataStructures.Dars,&nbsp;user_filters:&nbsp;apps.GREG.scraping.Utils.UserFilters)<br>
+                                &nbsp;<br>
+                                <a
+                                    href="#ScheduleGenerator">ScheduleGenerator</a>&nbsp;is&nbsp;responsible&nbsp;for&nbsp;generating&nbsp;all&nbsp;possible&nbsp;class&nbsp;schedules<br>
+                                that&nbsp;fit&nbsp;the&nbsp;given&nbsp;criteria&nbsp;outlined&nbsp;in&nbsp;Dars&nbsp;and&nbsp;UserFilters.<br>&nbsp;</tt>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td width="100%">Methods defined here:<br>
+                            <dl>
+                                <dt><a name="ScheduleGenerator-__init__"><strong>__init__</strong></a>(self, dars:
+                                    apps.GREG.scraping.ScrapingDataStructures.Dars, user_filters:
+                                    apps.GREG.scraping.Utils.UserFilters)</dt>
+                                <dd><tt>Initializes&nbsp;the&nbsp;<a
+                                            href="#ScheduleGenerator">ScheduleGenerator</a>&nbsp;with&nbsp;DARS&nbsp;data&nbsp;and&nbsp;user-specified&nbsp;filters.<br>
+                                        &nbsp;<br>
+                                        :param&nbsp;dars:&nbsp;An&nbsp;instance&nbsp;of&nbsp;Dars&nbsp;containing&nbsp;class&nbsp;and&nbsp;requirement&nbsp;information.<br>
+                                        :param&nbsp;user_filters:&nbsp;An&nbsp;instance&nbsp;of&nbsp;UserFilters&nbsp;containing&nbsp;user&nbsp;preferences.</tt>
+                                </dd>
+                            </dl>
+
+                            <dl>
+                                <dt><a
+                                        name="ScheduleGenerator-calculate_schedule_rating"><strong>calculate_schedule_rating</strong></a>(self,
+                                    schedule)</dt>
+                                <dd><tt>Calculates&nbsp;the&nbsp;rating&nbsp;for&nbsp;a&nbsp;given&nbsp;schedule&nbsp;based&nbsp;on&nbsp;various&nbsp;metrics.<br>
+                                        &nbsp;<br>
+                                        :param&nbsp;schedule:&nbsp;A&nbsp;tuple&nbsp;of&nbsp;ClassObjects&nbsp;representing&nbsp;a&nbsp;schedule.<br>
+                                        :return:&nbsp;A&nbsp;numerical&nbsp;rating&nbsp;for&nbsp;the&nbsp;schedule.</tt>
+                                </dd>
+                            </dl>
+
+                            <dl>
+                                <dt><a
+                                        name="ScheduleGenerator-check_time_conflict"><strong>check_time_conflict</strong></a>(self,
+                                    schedule: apps.GREG.scraping.Utils.ScheduleObject)</dt>
+                                <dd><tt>Checks&nbsp;a&nbsp;given&nbsp;schedule&nbsp;for&nbsp;any&nbsp;time&nbsp;conflicts&nbsp;between&nbsp;classes.<br>
+                                        &nbsp;<br>
+                                        :param&nbsp;schedule:&nbsp;A&nbsp;ScheduleObject&nbsp;representing&nbsp;a&nbsp;potential&nbsp;schedule.<br>
+                                        :return:&nbsp;Boolean&nbsp;value&nbsp;indicating&nbsp;whether&nbsp;a&nbsp;time&nbsp;conflict&nbsp;exists.</tt>
+                                </dd>
+                            </dl>
+
+                            <dl>
+                                <dt><a
+                                        name="ScheduleGenerator-generateSchedules"><strong>generateSchedules</strong></a>(self)
+                                </dt>
+                                <dd><tt>Generates&nbsp;all&nbsp;possible&nbsp;schedules&nbsp;based&nbsp;on&nbsp;filtered&nbsp;and&nbsp;prioritized&nbsp;class&nbsp;data.<br>
+                                        &nbsp;<br>
+                                        :return:&nbsp;A&nbsp;list&nbsp;of&nbsp;ScheduleObjects&nbsp;representing&nbsp;all&nbsp;valid&nbsp;schedules.</tt>
+                                </dd>
+                            </dl>
+
+                            <dl>
+                                <dt><a
+                                        name="ScheduleGenerator-generate_combinations"><strong>generate_combinations</strong></a>(self)
+                                </dt>
+                                <dd><tt>Generates&nbsp;all&nbsp;valid&nbsp;combinations&nbsp;of&nbsp;classes&nbsp;that&nbsp;meet&nbsp;the&nbsp;filtering&nbsp;criteria.<br>
+                                        &nbsp;<br>
+                                        :return:&nbsp;A&nbsp;list&nbsp;of&nbsp;tuples,&nbsp;each&nbsp;representing&nbsp;a&nbsp;valid&nbsp;class&nbsp;combination.</tt>
+                                </dd>
+                            </dl>
+
+                            <dl>
+                                <dt><a
+                                        name="ScheduleGenerator-preprocess_data"><strong>preprocess_data</strong></a>(self)
+                                </dt>
+                                <dd><tt>Preprocesses&nbsp;the&nbsp;DARS&nbsp;data&nbsp;to&nbsp;apply&nbsp;filters&nbsp;and&nbsp;prioritize&nbsp;classes&nbsp;before&nbsp;schedule&nbsp;generation.</tt>
+                                </dd>
+                            </dl>
+
+                            <dl>
+                                <dt><a name="ScheduleGenerator-sort_schedules"><strong>sort_schedules</strong></a>(self)
+                                </dt>
+                                <dd><tt>Sorts&nbsp;the&nbsp;generated&nbsp;schedules&nbsp;in&nbsp;place&nbsp;by&nbsp;their&nbsp;ratings&nbsp;in&nbsp;descending&nbsp;order.</tt>
+                                </dd>
+                            </dl>
+
+                            <hr>
+                            Data descriptors defined here:<br>
+                            <dl>
+                                <dt><strong>__dict__</strong></dt>
+                                <dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt><strong>__weakref__</strong></dt>
+                                <dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt>
+                                </dd>
+                            </dl>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <p>
+    <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+        <tr bgcolor="#eeaa77">
+            <td colspan=3 valign=bottom>&nbsp;<br>
+                <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font>
+            </td>
+        </tr>
+
+        <tr>
+            <td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+            <td>&nbsp;</td>
+            <td width="100%">
+                <dl>
+                    <dt><a name="-main"><strong>main</strong></a>(dars: apps.GREG.scraping.ScrapingDataStructures.Dars,
+                        filters: apps.GREG.scraping.Utils.UserFilters)</dt>
+                </dl>
+                <dl>
+                    <dt><a name="-run_tests"><strong>run_tests</strong></a>(schedule_dicts, filters)</dt>
+                    <dd><tt>Runs&nbsp;a&nbsp;series&nbsp;of&nbsp;tests&nbsp;on&nbsp;the&nbsp;generated&nbsp;schedules&nbsp;to&nbsp;ensure&nbsp;they&nbsp;meet&nbsp;specified&nbsp;criteria.<br>
+                            &nbsp;<br>
+                            :param&nbsp;schedule_dicts:&nbsp;A&nbsp;list&nbsp;of&nbsp;dictionaries,&nbsp;each&nbsp;representing&nbsp;a&nbsp;schedule.<br>
+                            :param&nbsp;filters:&nbsp;An&nbsp;instance&nbsp;of&nbsp;UserFilters&nbsp;containing&nbsp;user&nbsp;preferences.</tt>
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+    </table>
+    <p>
+    <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+        <tr bgcolor="#55aa55">
+            <td colspan=3 valign=bottom>&nbsp;<br>
+                <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font>
+            </td>
+        </tr>
+
+        <tr>
+            <td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+            <td>&nbsp;</td>
+            <td width="100%"><strong>DEBUG</strong> = False</td>
+        </tr>
+    </table>
+</body>
+
+</html>
