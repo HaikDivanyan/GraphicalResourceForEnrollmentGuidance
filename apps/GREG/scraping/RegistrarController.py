@@ -7,6 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import ElementNotInteractableException
 import re
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.chrome.service import Service as ChromeService 
 from webdriver_manager.chrome import ChromeDriverManager
 import pickle
@@ -14,16 +15,38 @@ from pathlib import Path
 
 class RegistrarController:
     def __init__(self):
+        """ Constructor """
         with (Path(__file__).parent / "registrar.pkl").open("rb") as f:
             self.registrarData = pickle.load(f)
     
     def getClassData(self, currClass: ClassObject) -> RegistrarData:
+        """ Gets the requested class data 
+        
+        
+            :param currClass: ClassObject
+            :return registrarData[currClass.id] or None: returns requested class from registrarData using class id
+        
+        """
         if currClass.id in self.registrarData:
+            #DEBUG
+            if __debug__:
+                assert isinstance(self.registrarData[currClass.id], RegistrarData)
             return self.registrarData[currClass.id]
         else:
             return None
 
     def get_discussions_for_lecture(self,main_lecture,driver,class_id,class_name):
+        """ Given the main lecture, create list of discussions
+        
+        :param main_lecture: Selenium WebElement for the given lecture
+        :param driver: Selenium WebDriver
+        :param class_id: id of class
+        :param class_name: name of class
+        :return: returns list of discussion objects
+        
+        
+        
+         """
         enroll_column = main_lecture.find_element(By.CLASS_NAME,"enrollColumn")
         try:
             toggle = enroll_column.find_element(By.CLASS_NAME, "toggle")
@@ -53,7 +76,9 @@ class RegistrarController:
                     # disc time is a list
                     disc = DiscussionSection(disc_id,disc_time)
                     discussions.append(disc)
-            
+            #DEBUG
+            if __debug__:
+                assert isinstance(discussions,list)
             return discussions
         # No discussions for lecture 
         except NoSuchElementException:
@@ -61,26 +86,53 @@ class RegistrarController:
             return empty_discussions
         
     def get_lecture_id(self,main_lecture):
+        """ Get lecture id from lecture element 
+        
+        :param main_lecture: Selenium WebElement for the given lecture
+        :return: returns lecture id string
+        
+        
+        """
         section_column = main_lecture.find_element(By.CLASS_NAME,"sectionColumn")
         class_section_info = section_column.find_element(
                 By.CSS_SELECTOR,
                 '.cls-section.click_info'
             )
         lecture_name_tag = class_section_info.find_element(By.CLASS_NAME,"hide-small")
+        # DEBUG
+        if __debug__:
+            assert isinstance(lecture_name_tag.text, str)
         return lecture_name_tag.text
 
     def get_lecture_units(self,main_lecture):
+        """ Gets units for lecture element 
+        
+        :param main_lecture: Selenium WebElement for given lecture
+        :return: returns class units string
+        """
         class_units_column = main_lecture.find_element(By.CLASS_NAME,"unitsColumn")
         class_units = class_units_column.text
         if '/' in class_units:
             value = class_units.split('/')[0]
+            if __debug__:
+                assert isinstance(value.strip(),str)
             return value.strip()  
         else:
-
+            if __debug__:
+                assert isinstance(class_units,str)
             return class_units
 
 
     def get_lecture_day_time(self,main_lecture,class_name,driver):
+        """ Gets the given lecture's day and time 
+        
+        :param main_lecture: Selenium WebElement for given lecture
+        :param class_name: name of class
+        :param driver: Selenium WebDriver 
+
+        :return: list of lecture time and days or status code for error
+        
+        """
         class_days_column = main_lecture.find_element(By.CSS_SELECTOR,
             ".dayColumn.hide-small.beforeCollapseHide")
         class_days_column_nested = class_days_column.find_element(By.XPATH, "./*")
@@ -121,9 +173,17 @@ class RegistrarController:
 
         lecture_time = Time(day_and_time[0],day_and_time[1])
         lecture_time_list.append(lecture_time)
+        if __debug__:
+            assert isinstance(lecture_time_list,list)
         return lecture_time_list
 
     def get_prof_name(self,main_lecture):
+        """ Gets professor name for given lecture
+        
+        
+        :param main_lecture: Selenium WebElement for the given lecture
+        :return: returns list of professor names
+         """
         try:
             class_instructor_column = main_lecture.find_element(By.CSS_SELECTOR,
                 ".instructorColumn.hide-small")
@@ -135,6 +195,8 @@ class RegistrarController:
                         prof = None
             elif len(prof_name_list)==1 and prof_name_list[0] == 'The Staff' or prof_name_list[0] == 'No instructors':
                 prof_name_list[0] = None
+            if __debug__:
+                assert isinstance(prof_name_list,list)
             return prof_name_list
         except NoSuchElementException:
             class_instructor_column = main_lecture.find_element(By.CLASS_NAME,
@@ -147,16 +209,24 @@ class RegistrarController:
                         prof = None
             elif len(prof_name_list)==1 and prof_name_list[0] == 'The Staff' or prof_name_list[0] == 'No instructors':
                 prof_name_list[0] = None
+            if __debug__:
+                assert isinstance(prof_name_list,list)
             return prof_name_list
         
         
     def get_all_subject_areas(self):
+        """ Gets all subject areas from majors.txt file """
         majors_txt_file_path = 'GraphicalResourceForEnrollmentGuidance/scraping/majors.txt'
         with open(majors_txt_file_path, 'r') as file:
             contents = file.read()
             self.subject_area_list = contents.split(',')
 
     def get_registar_URL_for_subject_area(self,subject_area):
+        """ Gets Registrar URL for given subject area 
+        
+        :param subject_area: UCLA subject area
+        :return: formatted URL for given subject area to UCLA Registrar
+        """
         contains_whitespace = any(char.isspace() for char in subject_area)
         contains_ampersand = '&' in subject_area
     
@@ -166,9 +236,19 @@ class RegistrarController:
             subject_area = subject_area.replace("&","%26")
         registrar_winter_24_url = 'https://sa.ucla.edu/ro/public/soc/Results?SubjectAreaName=Computer+Science+(COM+SCI)&t=24W&sBy=subject&subj={subject_area}&catlg=&cls_no=&undefined=Go&btnIsInIndex=btn_inIndex'
         formatted_url = registrar_winter_24_url.format(subject_area=subject_area)
+        if __debug__:
+            assert isinstance(formatted_url,str)
         return formatted_url
 
     def scraper_helper(self,driver,url,subject_area):
+        """ Gets all classes for the given subject area
+
+        :param driver: Selenium WebDriver
+        :param url: URL of given subject area for UCLA Registrar
+        :param subject_area: Subject area in UCLA registrar
+        :return: list of WebElement for all classes in subject area
+
+         """ 
         driver.get(url) 
         main = driver.find_element(By.ID, "main")
         container_class = main.find_element(By.CLASS_NAME, "container")
@@ -186,9 +266,19 @@ class RegistrarController:
         div_results_title = div_results.find_element(By.ID, "resultsTitle")
 
         all_classes = div_results_title.find_elements(By.CSS_SELECTOR,".row-fluid.class-title")
+        if __debug__:
+            assert isinstance(all_classes, list), "all_classes is not a list"
+            for element in all_classes:
+                assert isinstance(element, WebElement), "element in all_classes is not a WebElement"
         return all_classes
 
     def if_process_class(self,class_element):
+        """ Checks if class should be processed based on class exceptions that UCLA CS students can't take
+        
+        :param class_element: Selenium WebElement for given class
+        :return: status code if class should be processed or not
+
+         """
         class_id = class_element.get_attribute('id')
         head_of_class = class_element.find_element(By.CLASS_NAME,"head")
         class_name_button = head_of_class.find_element(By.ID, class_id+"-title")
@@ -203,6 +293,17 @@ class RegistrarController:
             return class_name, self.STATUS_PROCEED
 
     def process_each_class(self,subject_area, class_element,driver,class_name):
+        """ Processes each lecture object and gets lecture id, professor names, units, list of discussions
+        and creates a lecture object for a class
+        
+        :param subject_area: subject area from UCLA Registrar
+        :param class_element: Selenium WebElement for given class
+        :param driver: Selenium WebDriver
+        :param class_name: name of class
+        :return: returns list of lecture objects, units, class id and class name
+        
+        
+        """
         class_id = class_element.get_attribute('id')
         self.class_id_list.append(class_id)
         head_of_class = class_element.find_element(By.CLASS_NAME,"head")
@@ -247,6 +348,11 @@ class RegistrarController:
                 except NoSuchElementException:
                     print(f"exception occured on class name: {class_name}")
             if len(lect_object_list) != 0:
+                if __debug__:
+                    assert isinstance(lect_object_list,list)
+                    assert isinstance(units,str)
+                    assert isinstance(class_id,str)
+                    assert isinstance(class_name,str)
                 return lect_object_list, units,class_id,class_name
             else:
                 return self.STATUS_ERROR
@@ -254,12 +360,25 @@ class RegistrarController:
             print(f'time out exception on {subject_area}')
             
     def process_class_id(self,subject_area,class_name):
+        """ Processes each class ID to match UCLA class ID format
+
+        :param subject_area: subject area from UCLA Registrar
+        :param class_name: name of class
+        :return: returns formatted class id
+         """
         print(class_name)
         number = class_name.split()[0]
         class_id = subject_area + ' ' + number
+        if __debug__:
+            assert isinstance(class_id,str)
         return class_id
        
     def print_reg_object(self, registar_data_obj: RegistrarData):
+        """ Print RegistrarData object
+        :param registar_data_obj: a RegistrarData object
+        :return: none
+
+        """
         print(f"class_id: {registar_data_obj.classId}")    
         print(f"class name: {registar_data_obj.className}")  
         print(f"units: {registar_data_obj.units}")  
@@ -277,6 +396,7 @@ class RegistrarController:
                  print(f"disc days: {dd.days}, disc hours: {dd.hours}")
     # Main function
     def scrapeNewData(self):
+        """ Scrapes UCLA Registrar data """
         self.subject_area_list = []
         self.STATUS_ERROR = 1
         self.STATUS_PROCEED = 0
